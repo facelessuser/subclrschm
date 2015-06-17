@@ -5,6 +5,7 @@ https://gist.github.com/facelessuser/5750404
 
 Licensed under MIT
 Copyright (c) 2013 - 2015 Isaac Muse <isaacmuse@gmail.com>
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation
 the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
@@ -174,7 +175,11 @@ class CustomApp(wx.App):
         return self.instance_okay
 
     def OnInit(self):  # noqa
-        """Execute callback if instance is okay.  Store instance check variable."""
+        """
+        Execute callback if instance is okay.
+
+        Store instance check variable.
+        """
 
         self.instance_okay = True
         if self.single_instance is not None:
@@ -217,7 +222,7 @@ class ArgPipeThread(object):
 
         self.check_pipe = False
         if _PLATFORM == "windows":
-            fileHandle = win32file.CreateFile(  # noqa
+            file_handle = win32file.CreateFile(
                 self.pipe_name,
                 win32file.GENERIC_READ | win32file.GENERIC_WRITE,
                 0, None,
@@ -225,8 +230,8 @@ class ArgPipeThread(object):
                 0, None
             )
             data = '\n'
-            win32file.WriteFile(fileHandle, data)
-            win32file.CloseHandle(fileHandle)
+            win32file.WriteFile(file_handle, data)
+            win32file.CloseHandle(file_handle)
         else:
             with open(self.pipe_name, "w") as pipeout:
                 pipeout.write('\n')
@@ -291,7 +296,7 @@ class PipeApp(CustomApp):
 
     def OnInit(self):  # noqa
         """
-        If this is the first instance, start the pipe listener.
+        Check if this is the first instance, and if so, start the pipe listener.
 
         If not, send the current args to the pipe to be read
         by the first instance.
@@ -313,7 +318,7 @@ class PipeApp(CustomApp):
         if len(sys.argv) > 1:
             if _PLATFORM == "windows":
                 args = self.process_args(sys.argv[1:])
-                fileHandle = win32file.CreateFile(  # noqa
+                file_handle = win32file.CreateFile(
                     self.pipe_name,
                     win32file.GENERIC_READ | win32file.GENERIC_WRITE,
                     0, None,
@@ -321,8 +326,8 @@ class PipeApp(CustomApp):
                     0, None
                 )
                 data = '|'.join(args) + '\n'
-                win32file.WriteFile(fileHandle, data)
-                win32file.CloseHandle(fileHandle)
+                win32file.WriteFile(file_handle, data)
+                win32file.CloseHandle(file_handle)
             else:
                 with open(self.pipe_name, "w") as pipeout:
                     args = self.process_args(sys.argv[1:])
@@ -360,7 +365,7 @@ class PipeApp(CustomApp):
 
 class DebugFrameExtender(object):
 
-    """DebugFrameExtender."""
+    """Extend frame with debugger."""
 
     def set_keybindings(self, keybindings=[], debug_event=None):
         """

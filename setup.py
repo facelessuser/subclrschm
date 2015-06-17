@@ -25,7 +25,7 @@ setup(
     ],
     zip_safe=False,
     entry_points={
-        'console_scripts': [
+        'gui_scripts': [
             'subclrschm=subclrschm.subclrschm:cli'
         ]
     },

@@ -5,12 +5,7 @@ Sublime Text Color Scheme Editor.
 Licensed under MIT
 Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
 """
-import wxversion
 import sys
-
-if not hasattr(sys, "frozen"):  # noqa
-    wxversion.select('2.9')
-
 import argparse
 import codecs
 import json

@@ -11,7 +11,6 @@ import codecs
 import json
 import os
 import plistlib
-import sys
 import threading
 import time
 import uuid

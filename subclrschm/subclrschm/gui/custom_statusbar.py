@@ -19,6 +19,7 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABI
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
+from __future__ import unicode_literals
 from collections import OrderedDict
 import sys
 import wx
@@ -58,7 +59,7 @@ if wx.VERSION > (2, 9, 4) and wx.VERSION < (3, 0, 3):
         exec(''.join(tt_source))
         wx.lib.agw.supertooltip.ToolTipWindowBase.OnPaint = OnPaint  # noqa
 
-        monkey_patch()
+    monkey_patch()
 
 
 class ContextMenu(wx.Menu):
@@ -112,7 +113,7 @@ class TimedStatusExtension(object):
 
     """Timed status in status bar."""
 
-    def set_timed_status(self, text):
+    def set_timed_status(self, text, index=0):
         """
         Set the status for a short time.
 
@@ -120,36 +121,42 @@ class TimedStatusExtension(object):
         when the timed status completes.
         """
 
-        if self.text_timer.IsRunning():
-            self.text_timer.Stop()
+        if self.text_timer[index].IsRunning():
+            self.text_timer[index].Stop()
         else:
-            self.saved_text = self.GetStatusText(0)
-        self.SetStatusText(text, 0)
-        self.text_timer.Start(5000, oneShot=True)
+            self.saved_text = self.GetStatusText(index)
+        self.SetStatusText(text, index)
+        self.text_timer[index].Start(5000, oneShot=True)
 
-    def sb_time_setup(self):
+    def sb_time_setup(self, field_count):
         """Setup timer for timed status."""
 
-        self.saved_text = ""
-        self.text_timer = wx.Timer(self)
-        self.Bind(wx.EVT_TIMER, self.clear_text, self.text_timer)
+        self.field_count = field_count
+        self.saved_text = [""] * field_count
+        self.text_timer = [wx.Timer(self)] * field_count
+        count = 0
+        for x in self.text_timer:
+            self.Bind(wx.EVT_TIMER, lambda event, index=count: self.clear_text(event, index), self.text_timer[count])
+            count += 1
 
-    def clear_text(self, event):
+    def clear_text(self, event, index):
         """Clear the status."""
 
-        self.SetStatusText(self.saved_text, 0)
+        self.SetStatusText(self.saved_text, index)
 
-    def set_status(self, text):
+    def set_status(self, text, index=0):
         """Set the status."""
 
-        if self.text_timer.IsRunning():
-            self.text_timer.Stop()
-        self.SetStatusText(text, 0)
+        if self.text_timer[index].IsRunning():
+            self.text_timer[index].Stop()
+        self.SetStatusText(text, index)
 
 
 class IconTrayExtension(object):
 
     """Add icon tray extension."""
+
+    fields = [-1]
 
     def remove_icon(self, name):
         """Remove an icon from the tray."""
@@ -166,7 +173,11 @@ class IconTrayExtension(object):
         if self.sb_icons[name].tooltip:
             self.sb_icons[name].tooltip.hide()
 
-    def set_icon(self, name, icon, msg=None, context=None):
+    def set_icon(
+        self, name, icon, msg=None, context=None,
+        click_right=None, click_left=None,
+        dclick_right=None, dclick_left=None
+    ):
         """
         Set the given icon in the tray.
 
@@ -179,8 +190,16 @@ class IconTrayExtension(object):
         self.sb_icons[name] = wx.StaticBitmap(self, bitmap=icon)
         if msg is not None:
             ToolTip(self.sb_icons[name], msg)
+        if click_left is not None:
+            self.sb_icons[name].Bind(wx.EVT_LEFT_DOWN, click_left)
         if context is not None:
             self.sb_icons[name].Bind(wx.EVT_RIGHT_DOWN, lambda e: self.show_menu(name, context))
+        elif click_right is not None:
+            self.sb_icons[name].Bind(wx.EVT_RIGHT_DOWN, click_right)
+        if dclick_left is not None:
+            self.sb_icons[name].Bind(wx.EVT_LEFT_DCLICK, dclick_left)
+        if dclick_right is not None:
+            self.sb_icons[name].Bind(wx.EVT_RIGHT_DCLICK, dclick_right)
         self.place_icons(resize=True)
 
     def show_menu(self, name, context):
@@ -194,15 +213,20 @@ class IconTrayExtension(object):
 
         x_offset = 0
         if resize:
-            if _PLATFORM == "osx":
+            if _PLATFORM in "osx":
+                # OSX must increment by 10
                 self.SetStatusWidths([-1, len(self.sb_icons) * 20 + 10])
             elif _PLATFORM == "windows":
-                # In wxPython 2.9, the first icon inserted changes the size, additional icons don't
-                self.SetStatusWidths([-1, (len(self.sb_icons) - 1) * 20 + 1])
+                # In at least wxPython 2.9+, the first icon inserted changes the size, additional icons don't.
+                # I've only tested >= 2.9.
+                if len(self.sb_icons):
+                    self.SetStatusWidths([-1, (len(self.sb_icons) - 1) * 20 + 1])
+                else:
+                    self.SetStatusWidths([-1, len(self.sb_icons) * 20 + 1])
             else:
-                # Linux? Haven't tested yet.
+                # Linux? Should be fine with 1, but haven't tested yet.
                 self.SetStatusWidths([-1, len(self.sb_icons) * 20 + 1])
-        rect = self.GetFieldRect(1)
+        rect = self.GetFieldRect(len(self.fields))
         for v in self.sb_icons.values():
             v.SetPosition((rect.x + x_offset, rect.y))
             v.Hide()
@@ -218,9 +242,9 @@ class IconTrayExtension(object):
     def sb_tray_setup(self):
         """Setup the status bar with icon tray."""
 
-        self.SetFieldsCount(2)
+        self.SetFieldsCount(len(self.fields) + 1)
         self.SetStatusText('', 0)
-        self.SetStatusWidths([-1, 1])
+        self.SetStatusWidths(self.fields + [1])
         self.sb_icons = OrderedDict()
         self.Bind(wx.EVT_SIZE, self.on_sb_size)
 
@@ -229,36 +253,44 @@ class CustomStatusExtension(IconTrayExtension, TimedStatusExtension):
 
     """Custom status extension."""
 
-    def sb_setup(self):
+    def sb_setup(self, fields):
         """Setup the extention variant of the CustomStatusBar object."""
 
+        self.fields = fields
         self.sb_tray_setup()
-        self.sb_time_setup()
+        self.sb_time_setup(len(self.fields))
 
 
 class CustomStatusBar(wx.StatusBar, CustomStatusExtension):
 
     """Custom status bar."""
 
-    def __init__(self, parent):
+    def __init__(self, parent, name, fields=None):
         """Init the CustomStatusBar object."""
 
-        super(CustomStatusBar, self).__init__(parent)
-        self.sb_setup()
+        field_array = [-1] if not fields else fields[:]
+        super(CustomStatusBar, self).__init__(
+            parent,
+            id=wx.ID_ANY,
+            style=wx.STB_DEFAULT_STYLE,
+            name=name
+        )
+        self.sb_setup(field_array)
 
 
 def extend(instance, extension):
     """Extend instance with extension class."""
 
     instance.__class__ = type(
-        '%s_extended_with_%s' % (instance.__class__.__name__, extension.__name__),
+        b'%s_extended_with_%s' % (instance.__class__.__name__, extension.__name__),
         (instance.__class__, extension),
         {}
     )
 
 
-def extend_sb(sb):
+def extend_sb(sb, fields=None):
     """Extend the statusbar."""
 
+    field_array = [-1] if not fields else fields[:]
     extend(sb, CustomStatusExtension)
-    sb.sb_setup()
+    sb.sb_setup(field_array)

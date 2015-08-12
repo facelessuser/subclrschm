@@ -20,7 +20,8 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABI
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
-
+from __future__ import unicode_literals
+import codecs
 import json
 import os
 import simplelog
@@ -30,6 +31,13 @@ import time
 import wx
 import wx.lib.newevent
 
+PY3 = (3, 0) <= sys.version_info < (4, 0)
+
+if PY3:
+    binary_type = bytes  # noqa
+else:
+    binary_type = str  # noqa
+
 if sys.platform.startswith('win'):
     _PLATFORM = "windows"
 elif sys.platform == "darwin":
@@ -38,8 +46,13 @@ else:
     _PLATFORM = "linux"
 
 if _PLATFORM == "windows":
-    import win32pipe
-    import win32file
+    import ctypes
+    GENERIC_READ = 0x80000000
+    GENERIC_WRITE = 0x40000000
+    OPEN_EXISTING = 0x3
+    PIPE_ACCESS_DUPLEX = 0x3
+    PIPE_TYPE_MESSAGE = 0x4
+    PIPE_WAIT = 0x0
 
 PipeEvent, EVT_PIPE_ARGS = wx.lib.newevent.NewEvent()
 
@@ -145,7 +158,7 @@ class CustomApp(wx.App):
             del kwargs["single_instance_name"]
         if "callback" in kwargs:
             del kwargs["callback"]
-        super(CustomApp, self).__init__(*args, **kwargs)
+        wx.App.__init__(self, *args, **kwargs)
 
     def custom_init(self, *args, **kwargs):
         """Parse for new inputs and store them because they must be removed."""
@@ -180,6 +193,8 @@ class CustomApp(wx.App):
 
         Store instance check variable.
         """
+
+        self.locale = wx.Locale(wx.LANGUAGE_DEFAULT)
 
         self.instance_okay = True
         if self.single_instance is not None:
@@ -222,19 +237,27 @@ class ArgPipeThread(object):
 
         self.check_pipe = False
         if _PLATFORM == "windows":
-            file_handle = win32file.CreateFile(
+            file_handle = ctypes.windll.kernel32.CreateFileW(
                 self.pipe_name,
-                win32file.GENERIC_READ | win32file.GENERIC_WRITE,
+                GENERIC_READ | GENERIC_WRITE,
                 0, None,
-                win32file.OPEN_EXISTING,
+                OPEN_EXISTING,
                 0, None
             )
             data = '\n'
-            win32file.WriteFile(file_handle, data)
-            win32file.CloseHandle(file_handle)
+            bytes_written = ctypes.c_ulong(0)
+            ctypes.windll.kernel32.WriteFile(
+                file_handle, ctypes.c_wchar_p(data), len(data), ctypes.byref(bytes_written), None
+            )
+            ctypes.windll.kernel32.CloseHandle(file_handle)
         else:
-            with open(self.pipe_name, "w") as pipeout:
-                pipeout.write('\n')
+            with codecs.open(self.pipe_name, "w", encoding="utf-8") as pipeout:
+                try:
+                    pipeout.write('\n')
+                except IOError:
+                    # It's okay if the pipe is broken, our goal is just to break the
+                    # wait loop for recieving pipe data.
+                    pass
 
     def IsRunning(self):  # noqa
         """Returns if the thread is still busy."""
@@ -246,23 +269,25 @@ class ArgPipeThread(object):
 
         if _PLATFORM == "windows":
             data = ""
-            p = win32pipe.CreateNamedPipe(
+            p = ctypes.windll.kernel32.CreateNamedPipeW(
                 self.pipe_name,
-                win32pipe.PIPE_ACCESS_DUPLEX,
-                win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_WAIT,
+                PIPE_ACCESS_DUPLEX,
+                PIPE_TYPE_MESSAGE | PIPE_WAIT,
                 1, 65536, 65536, 300, None
             )
             while self.check_pipe:
-                win32pipe.ConnectNamedPipe(p, None)
-                result = win32file.ReadFile(p, 4096)
-                if result[0] == 0:
-                    data += result[1].replace("\r", "")
+                ctypes.windll.kernel32.ConnectNamedPipe(p, None)
+                result = ctypes.create_unicode_buffer(4096)
+                bytes_read = ctypes.c_ulong(0)
+                success = ctypes.windll.kernel32.ReadFile(p, result, 4096, ctypes.byref(bytes_read), None)
+                if success:
+                    data += result.value.replace("\r", "")
                     if len(data) and data[-1] == "\n":
                         lines = data.rstrip("\n").split("\n")
                         evt = PipeEvent(data=lines[-1])
                         wx.PostEvent(self.app, evt)
                         data = ""
-                win32pipe.DisconnectNamedPipe(p)
+                ctypes.windll.kernel32.DisconnectNamedPipe(p)
                 time.sleep(0.2)
         else:
             if os.path.exists(self.pipe_name):
@@ -270,7 +295,7 @@ class ArgPipeThread(object):
             if not os.path.exists(self.pipe_name):
                 os.mkfifo(self.pipe_name)
 
-            with open(self.pipe_name, "r") as pipein:
+            with codecs.open(self.pipe_name, "r", 'utf-8') as pipein:
                 while self.check_pipe:
                     line = pipein.readline()[:-1]
                     if line != "":
@@ -292,7 +317,7 @@ class PipeApp(CustomApp):
         self.pipe_name = kwargs.get("pipe_name", None)
         if "pipe_name" in kwargs:
             del kwargs["pipe_name"]
-        super(PipeApp, self).__init__(*args, **kwargs)
+        CustomApp.__init__(self, *args, **kwargs)
 
     def OnInit(self):  # noqa
         """
@@ -302,7 +327,7 @@ class PipeApp(CustomApp):
         by the first instance.
         """
 
-        super(PipeApp, self).OnInit()
+        CustomApp.OnInit(self)
         self.Bind(EVT_PIPE_ARGS, self.on_pipe_args)
         if self.pipe_name is not None:
             if self.is_instance_okay():
@@ -312,26 +337,37 @@ class PipeApp(CustomApp):
                 return False
         return True
 
+    def get_sys_args(self):
+        """Get system args as unicode."""
+
+        args = []
+        encoding = sys.getfilesystemencoding()
+        for a in sys.argv[1:]:
+            args.append(a.decode(encoding) if isinstance(a, binary_type) else a)
+        return args
+
     def send_arg_pipe(self):
         """Send the current arguments down the pipe."""
-
-        if len(sys.argv) > 1:
-            if _PLATFORM == "windows":
-                args = self.process_args(sys.argv[1:])
-                file_handle = win32file.CreateFile(
-                    self.pipe_name,
-                    win32file.GENERIC_READ | win32file.GENERIC_WRITE,
-                    0, None,
-                    win32file.OPEN_EXISTING,
-                    0, None
-                )
-                data = '|'.join(args) + '\n'
-                win32file.WriteFile(file_handle, data)
-                win32file.CloseHandle(file_handle)
-            else:
-                with open(self.pipe_name, "w") as pipeout:
-                    args = self.process_args(sys.argv[1:])
-                    pipeout.write('|'.join(args) + '\n')
+        argv = self.get_sys_args()
+        if _PLATFORM == "windows":
+            args = self.process_args(argv)
+            file_handle = ctypes.windll.kernel32.CreateFileW(
+                self.pipe_name,
+                GENERIC_READ | GENERIC_WRITE,
+                0, None,
+                OPEN_EXISTING,
+                0, None
+            )
+            data = '|'.join(args) + '\n'
+            bytes_written = ctypes.c_ulong(0)
+            ctypes.windll.kernel32.WriteFile(
+                file_handle, ctypes.c_wchar_p(data), len(data) * 2, ctypes.byref(bytes_written), None
+            )
+            ctypes.windll.kernel32.CloseHandle(file_handle)
+        else:
+            with codecs.open(self.pipe_name, "w", encoding="utf-8") as pipeout:
+                args = self.process_args(argv)
+                pipeout.write('|'.join(args) + '\n')
 
     def process_args(self, arguments):
         """Noop, but can be overriden to process the args."""
@@ -355,7 +391,7 @@ class PipeApp(CustomApp):
             while running:
                 running = self.pipe_thread.IsRunning()
                 time.sleep(0.1)
-        super(PipeApp, self).OnExit()
+        CustomApp.OnExit(self)
 
     def on_pipe_args(self, event):
         """An overridable event for when pipe arguments are received."""
@@ -437,7 +473,7 @@ class DebugFrameExtender(object):
 def _log_struct(obj, log_func, label="Object"):
     """Base logger to log a dict in pretty print format."""
 
-    log_func(obj, format="%(loglevel)s: " + label + ": %(message)s\n", fmt=json_fmt)
+    log_func(obj, log_fmt="%(loglevel)s: " + label + ": %(message)s\n", msg_fmt=json_fmt)
 
 
 def json_fmt(obj):
@@ -452,35 +488,35 @@ def gui_log(msg):
     log._log(msg, echo=False)
 
 
-def debug(msg, echo=True, format="%(loglevel)s: %(message)s\n", fmt=None):
+def debug(msg, echo=True, log_fmt="%(loglevel)s: %(message)s\n", msg_fmt=None):
     """Debug level log."""
 
     if get_debug_mode():
-        log.debug(msg, echo=echo, format=format, fmt=fmt)
+        log.debug(msg, echo=echo, log_fmt=log_fmt, msg_fmt=msg_fmt)
 
 
-def info(msg, echo=True, format="%(loglevel)s: %(message)s\n", fmt=None):
+def info(msg, echo=True, log_fmt="%(loglevel)s: %(message)s\n", msg_fmt=None):
     """Info level log."""
 
-    log.info(msg, echo=echo, format=format, fmt=fmt)
+    log.info(msg, echo=echo, log_fmt=log_fmt, msg_fmt=msg_fmt)
 
 
-def critical(msg, echo=True, format="%(loglevel)s: %(message)s\n", fmt=None):
+def critical(msg, echo=True, log_fmt="%(loglevel)s: %(message)s\n", msg_fmt=None):
     """Critical level log."""
 
-    log.critical(msg, echo=echo, format=format, fmt=fmt)
+    log.critical(msg, echo=echo, log_fmt=log_fmt, msg_fmt=msg_fmt)
 
 
-def warning(msg, echo=True, format="%(loglevel)s: %(message)s\n", fmt=None):
+def warning(msg, echo=True, log_fmt="%(loglevel)s: %(message)s\n", msg_fmt=None):
     """Warning level log."""
 
-    log.warning(msg, echo=echo, format=format, fmt=fmt)
+    log.warning(msg, echo=echo, log_fmt=log_fmt, msg_fmt=msg_fmt)
 
 
-def error(msg, echo=True, format="%(loglevel)s: %(message)s\n", fmt=None):
+def error(msg, echo=True, log_fmt="%(loglevel)s: %(message)s\n", msg_fmt=None):
     """Error level log."""
 
-    log.error(msg, echo=echo, format=format, fmt=fmt)
+    log.error(msg, echo=echo, log_fmt=log_fmt, msg_fmt=msg_fmt)
 
 
 def debug_struct(obj, label="Object"):

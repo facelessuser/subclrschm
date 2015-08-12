@@ -26,7 +26,7 @@ setup(
     zip_safe=False,
     entry_points={
         'gui_scripts': [
-            'subclrschm=subclrschm.subclrschm:cli'
+            'subclrschm=subclrschm.__main__:main'
         ]
     },
     license='MIT License',

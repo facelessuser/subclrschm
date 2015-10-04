@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Nov  6 2013)
+## Python code generated with wxFormBuilder (version Aug 23 2015)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
@@ -49,7 +49,7 @@ class EditorFrame ( wx.Frame ):
 		fgSizer2.Add( self.m_plist_name_label, 0, wx.ALL, 5 )
 		
 		self.m_plist_name_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer2.Add( self.m_plist_name_textbox, 0, wx.ALIGN_RIGHT|wx.ALL|wx.EXPAND, 5 )
+		fgSizer2.Add( self.m_plist_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_plist_uuid_label = wx.StaticText( self.m_main_panel, wx.ID_ANY, u"UUID", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_plist_uuid_label.Wrap( -1 )
@@ -61,7 +61,7 @@ class EditorFrame ( wx.Frame ):
 		fgSizer10.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		self.m_plist_uuid_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer10.Add( self.m_plist_uuid_textbox, 0, wx.ALIGN_RIGHT|wx.ALL|wx.EXPAND, 5 )
+		fgSizer10.Add( self.m_plist_uuid_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_uuid_button = wx.Button( self.m_main_panel, wx.ID_ANY, u"Generate", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer10.Add( self.m_uuid_button, 0, wx.ALL, 5 )
@@ -770,6 +770,91 @@ class ColorSetting ( wx.Dialog ):
 		event.Skip()
 	
 	def on_apply_button_click( self, event ):
+		event.Skip()
+	
+
+###########################################################################
+## Class AboutDialog
+###########################################################################
+
+class AboutDialog ( wx.Dialog ):
+	
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		bSizer12 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_about_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_about_panel.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
+		
+		fgSizer33 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer33.AddGrowableCol( 1 )
+		fgSizer33.SetFlexibleDirection( wx.BOTH )
+		fgSizer33.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_bitmap = wx.StaticBitmap( self.m_about_panel, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size( 64,64 ), 0 )
+		fgSizer33.Add( self.m_bitmap, 0, wx.ALL, 5 )
+		
+		fgSizer34 = wx.FlexGridSizer( 0, 1, 0, 0 )
+		fgSizer34.AddGrowableCol( 0 )
+		fgSizer34.SetFlexibleDirection( wx.BOTH )
+		fgSizer34.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_app_label = wx.StaticText( self.m_about_panel, wx.ID_ANY, u"SubClrSchm", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE )
+		self.m_app_label.Wrap( -1 )
+		self.m_app_label.SetFont( wx.Font( 20, 70, 90, 90, False, wx.EmptyString ) )
+		
+		fgSizer34.Add( self.m_app_label, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		self.m_version_label = wx.StaticText( self.m_about_panel, wx.ID_ANY, u"Version", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE )
+		self.m_version_label.Wrap( -1 )
+		fgSizer34.Add( self.m_version_label, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		self.m_dev_toggle = wx.ToggleButton( self.m_about_panel, wx.ID_ANY, u"Contact >>", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer34.Add( self.m_dev_toggle, 0, wx.ALL, 5 )
+		
+		self.m_staticline4 = wx.StaticLine( self.m_about_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+		fgSizer34.Add( self.m_staticline4, 0, wx.EXPAND |wx.ALL, 5 )
+		
+		self.m_developers_label = wx.StaticText( self.m_about_panel, wx.ID_ANY, u"Dev", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE )
+		self.m_developers_label.Wrap( -1 )
+		self.m_developers_label.Hide()
+		
+		fgSizer34.Add( self.m_developers_label, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		
+		fgSizer33.Add( fgSizer34, 1, wx.EXPAND, 5 )
+		
+		
+		fgSizer33.AddSpacer( ( 64, 0), 1, wx.EXPAND, 5 )
+		
+		
+		fgSizer33.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		
+		
+		self.m_about_panel.SetSizer( fgSizer33 )
+		self.m_about_panel.Layout()
+		fgSizer33.Fit( self.m_about_panel )
+		bSizer12.Add( self.m_about_panel, 1, wx.EXPAND |wx.ALL, 5 )
+		
+		
+		self.SetSizer( bSizer12 )
+		self.Layout()
+		bSizer12.Fit( self )
+		
+		self.Centre( wx.BOTH )
+		
+		# Connect Events
+		self.m_dev_toggle.Bind( wx.EVT_TOGGLEBUTTON, self.on_toggle )
+	
+	def __del__( self ):
+		pass
+	
+	
+	# Virtual event handlers, overide them in your derived class
+	def on_toggle( self, event ):
 		event.Skip()
 	
 

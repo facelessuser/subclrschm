@@ -9,7 +9,6 @@ from ..rgba import RGBA
 
 
 class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
-
     """Style settings handler."""
 
     def __init__(self, parent, scheme, update):

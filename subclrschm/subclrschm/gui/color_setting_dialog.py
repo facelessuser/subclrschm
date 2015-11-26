@@ -8,7 +8,6 @@ from ..rgba import RGBA
 
 
 class ColorEditor(gui.ColorSetting, settings_key_bindings.SettingsKeyBindings):
-
     """Color editor."""
 
     def __init__(self, parent, obj, insert=False):

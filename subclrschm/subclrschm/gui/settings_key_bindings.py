@@ -4,7 +4,6 @@ import wx
 
 
 class SettingsKeyBindings(object):
-
     """Key binding for settings."""
 
     def setup_keybindings(self):

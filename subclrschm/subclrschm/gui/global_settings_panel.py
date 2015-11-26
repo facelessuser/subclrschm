@@ -9,7 +9,6 @@ import wx
 
 
 class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
-
     """GlobalSettings."""
 
     def __init__(self, parent, scheme, update, reshow):

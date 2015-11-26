@@ -53,7 +53,6 @@ app = BUNDLE(exe,
 
 
 class BuildVars(object):
-
     """Build variables."""
 
     extras = 'buildextras.yml'
@@ -197,7 +196,6 @@ def build_spec_file(obj, gui):
 
 
 class Args(object):
-
     """Argument object."""
 
     def __init__(self, script, name, **kwargs):
@@ -215,7 +213,6 @@ class Args(object):
 
 
 class BuildParams(object):
-
     """Build parametes."""
 
     python_bin_path = None

@@ -204,7 +204,6 @@ def parse_file(file_path):
 # Live Update Manager
 #################################################
 class LiveUpdate(threading.Thread):
-
     """
     Live update of the file.
 
@@ -310,7 +309,6 @@ class LiveUpdate(threading.Thread):
 # Editor Dialog
 #################################################
 class Editor(gui.EditorFrame, DebugFrameExtender):
-
     """Main editor."""
 
     def __init__(self, parent, scheme, j_file, t_file, live_save, debugging=False):

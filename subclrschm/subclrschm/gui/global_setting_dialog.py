@@ -9,7 +9,6 @@ import wx
 
 
 class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings):
-
     """GlobalEditor."""
 
     def __init__(self, parent, current_entries, name, value, insert=False):

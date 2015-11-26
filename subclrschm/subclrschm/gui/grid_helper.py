@@ -6,7 +6,6 @@ from ..rgba import RGBA
 
 
 class GridHelper(object):
-
     """Grid helper."""
 
     cell_select_semaphore = False

@@ -2,17 +2,17 @@
 ![License][license-image]
 # Sublime Color Scheme Editor
 
-Color Scheme Editor for Sublime Text.  This is the GUI source code.
+Sublime Color Scheme Editor for Sublime Text.  This is the GUI source code.
 
 # Supported Platforms
 ## Windows
-<img src="https://dl.dropboxusercontent.com/u/342698/ColorSchemeEditor/CSE_WIN.png" border="0"/>
+![Windows](./docs/src/markdown/images/CSE_WIN.png)
 
-## OSX
-<img src="https://dl.dropboxusercontent.com/u/342698/ColorSchemeEditor/CSE_OSX.png" border="0"/>
+## macOS
+![macOS](./docs/src/markdown/images/CSE_OSX.png)
 
-## Ubuntu 12.10 32 Bit
-<img src="https://dl.dropboxusercontent.com/u/342698/ColorSchemeEditor/CSE_NIX.png" border="0"/>
+## Linux
+![Ubuntu](./docs/src/markdown/images/CSE_NIX.png)
 
 # License
 

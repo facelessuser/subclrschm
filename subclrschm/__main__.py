@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 import argparse
 import os
 import sys
-from .subclrschm import version
-from .subclrschm.gui import custom_app
-from .subclrschm.gui import subclrschm_app
-from .subclrschm import util
+from .lib import __meta__
+from .lib.gui import custom_app
+from .lib.gui import subclrschm_app
+from .lib import util
 
 
 def parse_arguments(script):
@@ -17,7 +17,7 @@ def parse_arguments(script):
         description='Sublime Color Scheme Editor - Edit Sublime Color Scheme'
     )
     # Flag arguments
-    parser.add_argument('--version', action='version', version=('%(prog)s ' + version.__version__))
+    parser.add_argument('--version', action='version', version=('%(prog)s ' + __meta__.__version__))
     parser.add_argument('--debug', action='store_true', default=False, help=argparse.SUPPRESS)
     parser.add_argument('--no-redirect', action='store_true', default=False, help=argparse.SUPPRESS)
     parser.add_argument(

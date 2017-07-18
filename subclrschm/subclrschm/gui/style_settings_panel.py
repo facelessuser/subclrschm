@@ -6,6 +6,7 @@ from . import color_setting_dialog
 from . import grid_helper
 from . import settings_codes as sc
 from ..rgba import RGBA
+from ..x11colors import name2hex
 
 
 class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
@@ -17,7 +18,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         super(StyleSettings, self).__init__(parent)
         self.setup_keybindings()
         self.parent = parent
-        wx.EVT_MOTION(self.m_plist_grid.GetGridWindow(), self.on_mouse_motion)
+        self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)
         self.m_plist_grid.SetDefaultCellBackgroundColour(self.GetBackgroundColour())
         self.read_plist(scheme)
         self.update_plist = update
@@ -25,8 +26,14 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
     def read_plist(self, scheme):
         """Read the plist."""
 
-        foreground = RGBA(scheme["settings"][0]["settings"].get("foreground", "#000000"))
-        background = RGBA(scheme["settings"][0]["settings"].get("background", "#FFFFFF"))
+        color = scheme["settings"][0]["settings"].get("foreground", "#000000").strip()
+        if not color.startswith('#'):
+            color = name2hex(color)
+        foreground = RGBA(color)
+        color = scheme["settings"][0]["settings"].get("background", "#FFFFFF").strip()
+        if not color.startswith('#'):
+            color = name2hex(color)
+        background = RGBA(color)
         self.bg_color = background
         self.fg_color = foreground
         count = 0
@@ -48,9 +55,11 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         b = self.m_plist_grid.GetCellBackgroundColour(count, 0)
         if "background" in settings:
             try:
-                bg = RGBA(settings["background"].strip())
+                named_color = name2hex(settings["background"].strip())
+                color = named_color if named_color is not None else settings["background"].strip()
+                bg = RGBA(color)
                 bg.apply_alpha(self.bg_color.get_rgb())
-                self.m_plist_grid.SetCellValue(count, 2, settings["background"])
+                self.m_plist_grid.SetCellValue(count, 2, color)
             except:
                 bg = self.bg_color
                 self.m_plist_grid.SetCellValue(count, 2, "")
@@ -65,9 +74,11 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         self.m_plist_grid.SetCellBackgroundColour(count, 4, b)
         if "foreground" in settings:
             try:
-                fg = RGBA(settings["foreground"].strip())
+                named_color = name2hex(settings["foreground"].strip())
+                color = named_color if named_color is not None else settings["foreground"].strip()
+                fg = RGBA(color)
                 fg.apply_alpha(self.bg_color.get_rgb())
-                self.m_plist_grid.SetCellValue(count, 1, settings["foreground"])
+                self.m_plist_grid.SetCellValue(count, 1, color)
             except:
                 fg = self.fg_color
                 self.m_plist_grid.SetCellValue(count, 1, "")

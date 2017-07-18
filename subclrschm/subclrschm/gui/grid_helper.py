@@ -38,7 +38,7 @@ class GridHelper(object):
         else:
             grid.SetGridCursor(row, col)
         bg = grid.GetCellBackgroundColour(row, 0)
-        lum = RGBA(bg.GetAsString(wx.C2S_HTML_SYNTAX)).luminance()
+        lum = RGBA(bg.GetAsString(wx.C2S_HTML_SYNTAX)).get_luminance()
         if lum > 128:
             bg.Set(0, 0, 0)
         else:

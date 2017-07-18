@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Aug 23 2015)
+## Python code generated with wxFormBuilder (version Jun 22 2017)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
 ###########################################################################
 
 import wx
+import wx.adv
 import wx.xrc
 import wx.grid
 
@@ -20,7 +21,7 @@ class EditorFrame ( wx.Frame ):
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Color Scheme Editor", pos = wx.DefaultPosition, size = wx.Size( 599,417 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
-		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
@@ -117,28 +118,28 @@ class EditorFrame ( wx.Frame ):
 		self.m_menubar = wx.MenuBar( 0 )
 		self.m_menu_file = wx.Menu()
 		self.m_menuitem_open = wx.MenuItem( self.m_menu_file, wx.ID_ANY, u"Open", wx.EmptyString, wx.ITEM_NORMAL )
-		self.m_menu_file.AppendItem( self.m_menuitem_open )
+		self.m_menu_file.Append( self.m_menuitem_open )
 		
 		self.m_menuitem_save = wx.MenuItem( self.m_menu_file, wx.ID_ANY, u"Save", wx.EmptyString, wx.ITEM_NORMAL )
-		self.m_menu_file.AppendItem( self.m_menuitem_save )
+		self.m_menu_file.Append( self.m_menuitem_save )
 		
 		self.m_menuitem_save_as = wx.MenuItem( self.m_menu_file, wx.ID_ANY, u"Save As", wx.EmptyString, wx.ITEM_NORMAL )
-		self.m_menu_file.AppendItem( self.m_menuitem_save_as )
+		self.m_menu_file.Append( self.m_menuitem_save_as )
 		
 		self.m_menubar.Append( self.m_menu_file, u"File" ) 
 		
 		self.m_menu_help = wx.Menu()
 		self.m_menuitem_keys = wx.MenuItem( self.m_menu_help, wx.ID_ANY, u"Shortcuts", wx.EmptyString, wx.ITEM_NORMAL )
-		self.m_menu_help.AppendItem( self.m_menuitem_keys )
+		self.m_menu_help.Append( self.m_menuitem_keys )
 		
 		self.m_menuitem_about = wx.MenuItem( self.m_menu_help, wx.ID_ANY, u"About", wx.EmptyString, wx.ITEM_NORMAL )
-		self.m_menu_help.AppendItem( self.m_menuitem_about )
+		self.m_menu_help.Append( self.m_menuitem_about )
 		
 		self.m_menubar.Append( self.m_menu_help, u"Help" ) 
 		
 		self.SetMenuBar( self.m_menubar )
 		
-		self.m_statusbar = self.CreateStatusBar( 1, wx.ST_SIZEGRIP, wx.ID_ANY )
+		self.m_statusbar = self.CreateStatusBar( 1, wx.STB_SIZEGRIP, wx.ID_ANY )
 		
 		self.Centre( wx.BOTH )
 		
@@ -463,7 +464,7 @@ class GlobalSetting ( wx.Dialog ):
 	def __init__( self, parent ):
 		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Global Setting", pos = wx.DefaultPosition, size = wx.Size( 500,150 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
 		
-		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
@@ -478,7 +479,7 @@ class GlobalSetting ( wx.Dialog ):
 		
 		self.m_name_label = wx.StaticText( self.m_global_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_name_label.Wrap( -1 )
-		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
 		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
@@ -486,7 +487,7 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer1.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		fgSizer2 = wx.FlexGridSizer( 0, 4, 0, 0 )
 		fgSizer2.AddGrowableCol( 2 )
@@ -506,7 +507,7 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer1.Add( fgSizer2, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		fgSizer3 = wx.FlexGridSizer( 0, 3, 0, 0 )
 		fgSizer3.AddGrowableCol( 1 )
@@ -514,7 +515,7 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		
-		fgSizer3.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		self.m_apply_button = wx.Button( self.m_global_setting_panel, wx.ID_ANY, u"Apply", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer3.Add( self.m_apply_button, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
@@ -578,6 +579,104 @@ class GlobalSetting ( wx.Dialog ):
 	
 
 ###########################################################################
+## Class GlobalSettingCss
+###########################################################################
+
+class GlobalSettingCss ( wx.Dialog ):
+	
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Global Setting CSS", pos = wx.DefaultPosition, size = wx.Size( 300,400 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
+		
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
+		
+		bSizer1 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_global_setting_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer2 = wx.BoxSizer( wx.VERTICAL )
+		
+		fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer1.AddGrowableCol( 1 )
+		fgSizer1.AddGrowableRow( 1 )
+		fgSizer1.SetFlexibleDirection( wx.BOTH )
+		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_name_label = wx.StaticText( self.m_global_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_name_label.Wrap( -1 )
+		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
+		
+		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+		
+		self.m_name_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		fgSizer1.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		
+		self.m_value_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_PROCESS_TAB )
+		fgSizer1.Add( self.m_value_textbox, 0, wx.ALL|wx.EXPAND, 5 )
+		
+		
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		
+		fgSizer3 = wx.FlexGridSizer( 0, 3, 0, 0 )
+		fgSizer3.AddGrowableCol( 1 )
+		fgSizer3.SetFlexibleDirection( wx.BOTH )
+		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		
+		fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		
+		self.m_apply_button = wx.Button( self.m_global_setting_panel, wx.ID_ANY, u"Apply", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer3.Add( self.m_apply_button, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+		
+		
+		fgSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
+		
+		
+		bSizer2.Add( fgSizer1, 1, wx.EXPAND, 5 )
+		
+		
+		self.m_global_setting_panel.SetSizer( bSizer2 )
+		self.m_global_setting_panel.Layout()
+		bSizer2.Fit( self.m_global_setting_panel )
+		bSizer1.Add( self.m_global_setting_panel, 1, wx.EXPAND |wx.ALL, 5 )
+		
+		
+		self.SetSizer( bSizer1 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+		
+		# Connect Events
+		self.Bind( wx.EVT_CLOSE, self.on_close )
+		self.m_name_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_global_name_blur )
+		self.m_value_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_color_blur )
+		self.m_value_textbox.Bind( wx.EVT_SET_FOCUS, self.on_color_focus )
+		self.m_apply_button.Bind( wx.EVT_BUTTON, self.on_apply_button_click )
+	
+	def __del__( self ):
+		pass
+	
+	
+	# Virtual event handlers, overide them in your derived class
+	def on_close( self, event ):
+		event.Skip()
+	
+	def on_global_name_blur( self, event ):
+		event.Skip()
+	
+	def on_color_blur( self, event ):
+		event.Skip()
+	
+	def on_color_focus( self, event ):
+		event.Skip()
+	
+	def on_apply_button_click( self, event ):
+		event.Skip()
+	
+
+###########################################################################
 ## Class ColorSetting
 ###########################################################################
 
@@ -586,7 +685,7 @@ class ColorSetting ( wx.Dialog ):
 	def __init__( self, parent ):
 		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Color Setting", pos = wx.DefaultPosition, size = wx.Size( 500,200 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
 		
-		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
@@ -603,7 +702,7 @@ class ColorSetting ( wx.Dialog ):
 		
 		self.m_name_label = wx.StaticText( self.m_color_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_name_label.Wrap( -1 )
-		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
 		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
@@ -612,7 +711,7 @@ class ColorSetting ( wx.Dialog ):
 		
 		self.m_scope_label = wx.StaticText( self.m_color_setting_panel, wx.ID_ANY, u"Scope", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_scope_label.Wrap( -1 )
-		self.m_scope_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 92, False, wx.EmptyString ) )
+		self.m_scope_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
 		fgSizer1.Add( self.m_scope_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
@@ -620,7 +719,7 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer1.Add( self.m_scope_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		fgSizer2 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer2.AddGrowableCol( 1 )
@@ -642,13 +741,13 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer2.Add( gSizer1, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer2.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		
 		fgSizer1.Add( fgSizer2, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		fgSizer3 = wx.FlexGridSizer( 0, 5, 0, 0 )
 		fgSizer3.AddGrowableCol( 4 )
@@ -688,13 +787,13 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer3.Add( self.m_background_textbox, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
 		
 		
-		fgSizer3.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		
 		fgSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		fgSizer4 = wx.FlexGridSizer( 0, 3, 0, 0 )
 		fgSizer4.AddGrowableCol( 1 )
@@ -702,7 +801,7 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		
-		fgSizer4.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		self.m_apply_button = wx.Button( self.m_color_setting_panel, wx.ID_ANY, u"Apply", wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer4.Add( self.m_apply_button, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
@@ -782,7 +881,7 @@ class AboutDialog ( wx.Dialog ):
 	def __init__( self, parent ):
 		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
 		
-		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 		
 		bSizer12 = wx.BoxSizer( wx.VERTICAL )
 		
@@ -804,7 +903,7 @@ class AboutDialog ( wx.Dialog ):
 		
 		self.m_app_label = wx.StaticText( self.m_about_panel, wx.ID_ANY, u"SubClrSchm", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE )
 		self.m_app_label.Wrap( -1 )
-		self.m_app_label.SetFont( wx.Font( 20, 70, 90, 90, False, wx.EmptyString ) )
+		self.m_app_label.SetFont( wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
 		
 		fgSizer34.Add( self.m_app_label, 0, wx.ALL|wx.EXPAND, 5 )
 		
@@ -828,10 +927,10 @@ class AboutDialog ( wx.Dialog ):
 		fgSizer33.Add( fgSizer34, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer33.AddSpacer( ( 64, 0), 1, wx.EXPAND, 5 )
+		fgSizer33.Add( ( 64, 0), 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer33.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer33.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		
 		self.m_about_panel.SetSizer( fgSizer33 )
@@ -856,5 +955,3 @@ class AboutDialog ( wx.Dialog ):
 	# Virtual event handlers, overide them in your derived class
 	def on_toggle( self, event ):
 		event.Skip()
-	
-

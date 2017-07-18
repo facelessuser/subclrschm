@@ -14,6 +14,7 @@ import threading
 import time
 import uuid
 import wx
+import traceback
 
 from . import basic_dialogs
 from . import gui
@@ -26,6 +27,7 @@ from .custom_app import debug, debug_struct
 from ..default_new_theme import theme as default_new_theme
 from ..file_strip.json import sanitize_json
 from .. import data
+from .. import util
 
 DEBUG_CONSOLE = False
 
@@ -118,7 +120,7 @@ def query_user_for_file(parent, action):
         select = True
     while not done:
         if select:
-            result = basic_dialogs.filepicker("Choose a theme file:", wildcard)
+            result = basic_dialogs.filepicker("Choose a theme file:", "", wildcard)
             if result is not None:
                 debug(result)
                 if not result.lower().endswith(".tmtheme.json") and not result.lower().endswith(".tmtheme"):
@@ -129,7 +131,7 @@ def query_user_for_file(parent, action):
                 debug("Select: File selected: %s" % file_path)
             done = True
         else:
-            result = basic_dialogs.filepicker("Theme file to save:", wildcard, True)
+            result = basic_dialogs.filepicker("Theme file to save:", "", wildcard, True)
             if result is not None:
                 if not result.lower().endswith(".tmtheme.json") and not result.lower().endswith(".tmtheme"):
                     basic_dialogs.errormsg("File must be of type '.tmtheme' or '.tmtheme.json'")
@@ -147,7 +149,7 @@ def query_user_for_file(parent, action):
                         )
                 else:
                     with codecs.open(result, "w", "utf-8") as f:
-                        f.write((plistlib.writePlistToString(default_new_theme) + '\n').decode('utf8'))
+                        f.write((util.dump_plist(default_new_theme) + '\n'))
                 file_path = result
                 debug("New: File selected: %s" % file_path)
             done = True
@@ -163,9 +165,14 @@ def parse_file(file_path):
     is_json = file_path.lower().endswith("tmtheme.json")
 
     try:
-        with open(file_path, "r") as f:
-            color_scheme = json.loads(sanitize_json(f.read(), True)) if is_json else plistlib.readPlist(f)
+        if is_json:
+            with codecs.open(file_path, "r", encoding='utf-8') as f:
+                color_scheme = json.loads(sanitize_json(f.read(), True))
+        else:
+            with open(file_path, "rb") as f:
+                color_scheme = plistlib.readPlist(f)
     except Exception:
+        print(traceback.format_exc())
         basic_dialogs.errormsg('Unexpected problem trying to parse file!')
 
     if color_scheme is not None:
@@ -176,7 +183,7 @@ def parse_file(file_path):
             if not os.path.exists(t_file):
                 try:
                     with codecs.open(t_file, "w", "utf-8") as f:
-                        f.write((plistlib.writePlistToString(color_scheme) + '\n').decode('utf8'))
+                        f.write((util.dump_plist(color_scheme) + '\n'))
                 except Exception:
                     debug("tmTheme file write error!")
         else:
@@ -486,7 +493,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         if request == "tmtheme" or request == "all":
             try:
                 with codecs.open(self.tmtheme, "w", "utf-8") as f:
-                    f.write((plistlib.writePlistToString(self.scheme) + '\n').decode('utf8'))
+                    f.write((util.dump_plist(self.scheme) + '\n'))
             except Exception:
                 basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme file!')
 

@@ -21,18 +21,11 @@ DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
 from collections import OrderedDict
-import sys
 import wx
 import wx.lib.agw.supertooltip
+from .. import util
 
-if sys.platform.startswith('win'):
-    _PLATFORM = "windows"
-elif sys.platform == "darwin":
-    _PLATFORM = "osx"
-else:
-    _PLATFORM = "linux"
-
-if wx.VERSION > (2, 9, 4) and wx.VERSION < (3, 0, 3):
+if wx.VERSION > (2, 9, 4):  # When will this get fixed? :(
     def monkey_patch():
         """
         Monkey patch Supertooltips.
@@ -42,6 +35,7 @@ if wx.VERSION > (2, 9, 4) and wx.VERSION < (3, 0, 3):
 
         import inspect
         import re
+
         target_line = re.compile(r'([ ]{8})(maxWidth = max\(bmpWidth\+\(textWidth\+self._spacing\*3\), maxWidth\)\n)')
         tt_source = inspect.getsourcelines(wx.lib.agw.supertooltip.ToolTipWindowBase.OnPaint)[0]
         count = 0
@@ -57,7 +51,7 @@ if wx.VERSION > (2, 9, 4) and wx.VERSION < (3, 0, 3):
             tt_source[count] = line[4:]
             count += 1
         exec(''.join(tt_source))
-        wx.lib.agw.supertooltip.ToolTipWindowBase.OnPaint = OnPaint  # noqa
+        wx.lib.agw.supertooltip.ToolTipWindowBase.OnPaint = locals()['OnPaint']  # noqa
 
     monkey_patch()
 
@@ -75,7 +69,7 @@ class ContextMenu(wx.Menu):
             menuid = wx.NewId()
             item = wx.MenuItem(self, menuid, i[0])
             self._callbacks[menuid] = i[1]
-            self.AppendItem(item)
+            self.Append(item)
             self.Bind(wx.EVT_MENU, self.on_callback, item)
 
         parent.PopupMenu(self, pos)
@@ -154,6 +148,15 @@ class IconTrayExtension(object):
 
     fields = [-1]
 
+    def sb_tray_setup(self):
+        """Setup the status bar with icon tray."""
+
+        self.SetFieldsCount(len(self.fields) + 1)
+        self.SetStatusText('', 0)
+        self.SetStatusWidths(self.fields + [1])
+        self.sb_icons = OrderedDict()
+        self.Bind(wx.EVT_SIZE, self.on_sb_size)
+
     def remove_icon(self, name):
         """Remove an icon from the tray."""
 
@@ -183,7 +186,7 @@ class IconTrayExtension(object):
         if name in self.sb_icons:
             self.hide_tooltip(name)
             self.sb_icons[name].Destroy()
-        self.sb_icons[name] = wx.StaticBitmap(self, bitmap=icon)
+        self.sb_icons[name] = wx.StaticBitmap(self, label=icon)
         if msg is not None:
             ToolTip(self.sb_icons[name], msg)
         if click_left is not None:
@@ -209,10 +212,11 @@ class IconTrayExtension(object):
 
         x_offset = 0
         if resize:
-            if _PLATFORM in "osx":
+            platform = util.platform()
+            if platform in "osx":
                 # OSX must increment by 10
                 self.SetStatusWidths([-1, len(self.sb_icons) * 20 + 10])
-            elif _PLATFORM == "windows":
+            elif platform == "windows":
                 # In at least wxPython 2.9+, the first icon inserted changes the size, additional icons don't.
                 # I've only tested >= 2.9.
                 if len(self.sb_icons):
@@ -234,15 +238,6 @@ class IconTrayExtension(object):
 
         event.Skip()
         self.place_icons()
-
-    def sb_tray_setup(self):
-        """Setup the status bar with icon tray."""
-
-        self.SetFieldsCount(len(self.fields) + 1)
-        self.SetStatusText('', 0)
-        self.SetStatusWidths(self.fields + [1])
-        self.sb_icons = OrderedDict()
-        self.Bind(wx.EVT_SIZE, self.on_sb_size)
 
 
 class CustomStatusExtension(IconTrayExtension, TimedStatusExtension):
@@ -276,7 +271,9 @@ def extend(instance, extension):
     """Extend instance with extension class."""
 
     instance.__class__ = type(
-        b'%s_extended_with_%s' % (instance.__class__.__name__, extension.__name__),
+        ('%s_extended_with_%s' if util.PY3 else b'%s_extended_with_%s') % (
+            instance.__class__.__name__, extension.__name__
+        ),
         (instance.__class__, extension),
         {}
     )

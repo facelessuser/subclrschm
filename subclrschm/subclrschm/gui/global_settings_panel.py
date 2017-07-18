@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 from . import gui
 from . import grid_helper
 from . import global_setting_dialog
+from . import global_setting_css_dialog
 from . import settings_codes as sc
 from ..rgba import RGBA
+from ..x11colors import name2hex
 import wx
 
 
@@ -17,7 +19,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         super(GlobalSettings, self).__init__(parent)
         self.setup_keybindings()
         self.parent = parent
-        wx.EVT_MOTION(self.m_plist_grid.GetGridWindow(), self.on_mouse_motion)
+        self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)
         self.m_plist_grid.SetDefaultCellBackgroundColour(self.GetBackgroundColour())
         self.read_plist(scheme)
         self.reshow = reshow
@@ -26,19 +28,45 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
     def read_plist(self, scheme):
         """Read plist to get global settings."""
 
-        foreground = RGBA(scheme["settings"][0]["settings"].get("foreground", "#000000"))
-        background = RGBA(scheme["settings"][0]["settings"].get("background", "#FFFFFF"))
+        color = scheme["settings"][0]["settings"].get("foreground", "#000000").strip()
+        if not color.startswith('#'):
+            color = name2hex(color)
+        foreground = RGBA(color)
+        color = scheme["settings"][0]["settings"].get("background", "#FFFFFF").strip()
+        if not color.startswith('#'):
+            color = name2hex(color)
+        background = RGBA(color)
         global BG_COLOR
         BG_COLOR = background
         global FG_COLOR
         FG_COLOR = foreground
         count = 0
 
-        for k in sorted(scheme["settings"][0]["settings"].iterkeys()):
-            v = scheme["settings"][0]["settings"][k]
+        found_popup = False
+        found_phantom = False
+        for k in sorted(scheme["settings"][0]["settings"].keys()):
+            if k == "phantomCss":
+                found_phantom = True
+            elif k == "popupCss":
+                found_popup = True
+            v = scheme["settings"][0]["settings"][k].strip()
             self.m_plist_grid.AppendRows(1)
+            if not v.startswith('#'):
+                color = name2hex(v)
+                if color is not None:
+                    v = color
             self.update_row(count, k, v)
             count += 1
+
+        # Add phantom and/or popup if not found
+        if not found_popup:
+            self.m_plist_grid.AppendRows(1)
+            self.update_row(count, 'popupCss', '')
+            count += 1
+        if not found_phantom:
+            self.m_plist_grid.AppendRows(1)
+            self.update_row(count, 'phantomCss', '')
+
         self.resize_table()
 
         self.go_cell(self.m_plist_grid, 0, 0)
@@ -65,7 +93,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
             if k != "background":
                 editor = self.GetParent().GetParent().GetParent()
                 bg.apply_alpha(editor.m_style_settings.bg_color.get_rgb())
-            fg = RGBA("#000000") if bg.luminance() > 128 else RGBA("#FFFFFF")
+            fg = RGBA("#000000") if bg.get_luminance() > 128 else RGBA("#FFFFFF")
         except:
             bg = RGBA("#FFFFFF")
             fg = RGBA("#000000")
@@ -102,6 +130,8 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         row = self.m_plist_grid.GetGridCursorRow()
         col = self.m_plist_grid.GetGridCursorCol()
         name = self.m_plist_grid.GetCellValue(row, 0)
+        if name in ('popupCss', 'phantomCss'):
+            return
         self.m_plist_grid.DeleteRows(row, 1)
         self.m_plist_grid.GetParent().update_plist(sc.JSON_DELETE, {"table": "global", "index": name})
         if name == "foreground" or name == "background":
@@ -128,25 +158,39 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
             count += 1
 
         editor = self.GetParent().GetParent().GetParent()
-        global_setting_dialog.GlobalEditor(
+        diag = global_setting_dialog.GlobalEditor(
             editor,
             editor.scheme["settings"][0]["settings"],
             new_name,
             "nothing",
             insert=True
-        ).ShowModal()
+        )
+        diag.ShowModal()
+        diag.Destroy()
 
     def edit_cell(self):
         """Edit the cell."""
         grid = self.m_plist_grid
         row = grid.GetGridCursorRow()
         editor = self.GetParent().GetParent().GetParent()
-        global_setting_dialog.GlobalEditor(
-            editor,
-            editor.scheme["settings"][0]["settings"],
-            grid.GetCellValue(row, 0),
-            grid.GetCellValue(row, 1)
-        ).ShowModal()
+        name = grid.GetCellValue(row, 0)
+        if name in ('popupCss', 'phantomCss'):
+            diag = global_setting_css_dialog.GlobalCssEditor(
+                editor,
+                editor.scheme["settings"][0]["settings"],
+                grid.GetCellValue(row, 0),
+                grid.GetCellValue(row, 1)
+            )
+            diag.ShowModal()
+        else:
+            diag = global_setting_dialog.GlobalEditor(
+                editor,
+                editor.scheme["settings"][0]["settings"],
+                grid.GetCellValue(row, 0),
+                grid.GetCellValue(row, 1)
+            )
+            diag.ShowModal()
+        diag.Destroy()
 
     def on_grid_label_left_click(self, event):
         """Handle grid label left click."""

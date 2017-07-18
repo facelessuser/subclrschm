@@ -46,7 +46,7 @@ class ColorEditor(gui.ColorSetting, settings_key_bindings.SettingsKeyBindings):
             cl = RGBA("#FFFFFF")
             bg = wx.Colour(cl.r, cl.g, cl.b)
             self.m_foreground_picker.SetBackgroundColour(bg)
-            if cl.luminance() > 128:
+            if cl.get_luminance() > 128:
                 fg = wx.Colour(0, 0, 0)
             else:
                 fg = wx.Colour(255, 255, 255)
@@ -57,7 +57,7 @@ class ColorEditor(gui.ColorSetting, settings_key_bindings.SettingsKeyBindings):
             cl = RGBA("#FFFFFF")
             bg = wx.Colour(cl.r, cl.g, cl.b)
             self.m_background_picker.SetBackgroundColour(bg)
-            if cl.luminance() > 128:
+            if cl.get_luminance() > 128:
                 fg = wx.Colour(0, 0, 0)
             else:
                 fg = wx.Colour(255, 255, 255)
@@ -139,7 +139,7 @@ class ColorEditor(gui.ColorSetting, settings_key_bindings.SettingsKeyBindings):
         cl.apply_alpha(self.Parent.m_style_settings.bg_color.get_rgb())
         bg = wx.Colour(cl.r, cl.g, cl.b)
         self.m_background_picker.SetBackgroundColour(bg)
-        if cl.luminance() > 128:
+        if cl.get_luminance() > 128:
             fg = wx.Colour(0, 0, 0)
         else:
             fg = wx.Colour(255, 255, 255)
@@ -162,7 +162,7 @@ class ColorEditor(gui.ColorSetting, settings_key_bindings.SettingsKeyBindings):
         cl.apply_alpha(self.Parent.m_style_settings.bg_color.get_rgb())
         bg = wx.Colour(cl.r, cl.g, cl.b)
         self.m_foreground_picker.SetBackgroundColour(bg)
-        if cl.luminance() > 128:
+        if cl.get_luminance() > 128:
             fg = wx.Colour(0, 0, 0)
         else:
             fg = wx.Colour(255, 255, 255)

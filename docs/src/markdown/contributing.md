@@ -53,7 +53,7 @@ Continuous integration tests are run on all pull requests and commits via Travis
 
 ## Documentation Improvements
 
-A ton of time has been spent not only creating and supporting this module, but also spent making this documentation.  If you feel it is still lacking, show your appreciation for the plugin by helping to improve the documentation.  Help with documentation is always appreciated and can be done via pull requests.  There shouldn't be any need to run validation tests if only updating documentation.
+A ton of time has been spent not only creating and supporting this module, but also spent making this documentation.  If you feel it is still lacking, show your appreciation for the module by helping to improve the documentation.  Help with documentation is always appreciated and can be done via pull requests.  There shouldn't be any need to run validation tests if only updating documentation.
 
 You don't have to render the docs locally before pull requesting, but if you wish to, I currently use a combination of [MkDocs][mkdocs], the [Material theme][mkdocs-material], and [PyMdown Extensions][pymdown-extensions] to render the docs.  You can preview the docs if you install these packages.  The command for previewing the docs is `mkdocs serve`. It should be run from the root directory. You can then view the documents at `localhost:8000`.
 

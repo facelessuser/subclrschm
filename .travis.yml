@@ -1,10 +1,44 @@
+sudo: required
 language: python
-python:
-  - "2.7"
+matrix:
+  include:
+  - python: 2.7
+    env: TOXENV=lint
+  - python: 2.7
+    env: TOXENV=documents
 install:
   - pip install "flake8>=2,<3"
   - pip install flake8_docstrings
   - pip install flake8-putty
   - pip install pep8-naming
+addons:
+  apt:
+    packages:
+    - aspell
+    - aspell-en
+install:
+- pip install tox
 script:
-  - flake8 .
+- tox
+deploy:
+  - provider: pypi
+    user: facelessuser
+    server: https://upload.pypi.org/legacy/
+    password:
+      secure: L9Chmt56K0LOLpg3Y3ak0lpLHnJur+NQJcWt8HRNkaCmixzfRrVvFl4OotkdCNu24cEtjjuqZ7dg8XPPRRZJMN8D4VsbQ0CIZRqQBSEc5Sisp5NfQuZTVpuKoJZ3UNiZ4Plj6CQgmZD2YOz8f9Monpfg8qWOQ6D95x0FyOYFRB1xR68vVCwj/+Ezn78u9P3/JSh9cskCCL7+V0v7V1tXzHjzEJ29xPoe+1OBP4PAdo0pqEvhnPMsodODiqKYE9SzUwh7dnNXKARPGvbHYz+rJOwGstXbVkO9vm8nhDuox3RILmonGlYuE/s+kq3lWTDf3NYIGN2FjzX16cVADfiiUSnVehxqbh/ONJilpLLmUrJy+USfjGH+dbOi4xj9HmXMOQe8f/9UewbRO/Ybxx81q0sb5lAufOJxU6MUMN/1cgslf9jgneu25qRBGX/NUJndq0/yNftYj05np8ZYQMTxid0U1e4Q+JmaRBeenWt0Ns7pKeLTK3cFTz2xRgNYtJb0d5NqnJ8GAepSmGxXdghDnHUwf1JOdq1OT/xbSl20/57+qf3lbKiKKeXEr5DICpHmz53aAyXE02hjwnPEcW8noVlLPD01/ghXZbuSPENn3pfOexTClbLc9di9PjBDNUQe8Y53nL+1ZJ4n3wefSOCDPjV5Hyp2NdljiTjoBgLz8r4=
+    distributions: sdist bdist_wheel
+    skip_upload_docs: true
+    on:
+      tags: true
+      repo: facelessuser/subclrschm
+      condition: $TOXENV = documents
+  - provider: pages
+    github_token: $GITHUB_TOKEN
+    name: $GITHUB_USER
+    email: $GITHUB_EMAIL
+    skip_cleanup: true
+    local_dir: site
+    on:
+      tags: true
+      repo: facelessuser/subclrschm
+      condition: $TOXENV = documents

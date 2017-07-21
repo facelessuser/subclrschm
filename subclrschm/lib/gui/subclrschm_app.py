@@ -145,7 +145,7 @@ def query_user_for_file(parent, action):
                                     default_new_theme,
                                     sort_keys=True, indent=4, separators=(',', ': ')
                                 ) + '\n'
-                            ).decode('raw_unicode_escape')
+                            )
                         )
                 else:
                     with codecs.open(result, "w", "utf-8") as f:
@@ -199,7 +199,7 @@ def parse_file(file_path):
                                     color_scheme,
                                     sort_keys=True, indent=4, separators=(',', ': ')
                                 ) + '\n'
-                            ).decode('raw_unicode_escape')
+                            )
                         )
                 except Exception:
                     debug("JSON file write error!")
@@ -506,12 +506,13 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                                 self.scheme,
                                 sort_keys=True, indent=4, separators=(',', ': ')
                             ) + '\n'
-                        ).decode('raw_unicode_escape')
+                        )
                     )
                 self.updates_made = False
                 if not self.live_save:
                     self.m_menuitem_save.Enable(False)
-            except Exception:
+            except Exception as e:
+                error(e)
                 basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme.JSON file!')
 
     def rebuild_tables(self, cur_row, cur_col):

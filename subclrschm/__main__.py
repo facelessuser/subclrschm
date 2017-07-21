@@ -22,7 +22,7 @@ def parse_arguments(script):
     parser.add_argument('--no-redirect', action='store_true', default=False, help=argparse.SUPPRESS)
     parser.add_argument('--multi-instance', '-m', action='store_true', default=False, help="Allow multiple instances")
     parser.add_argument(
-        '--log', '-l', nargs='?', default=script,
+        '--log', '-l', nargs='?', default='',
         help="Absolute path to directory to store log file"
     )
     parser.add_argument('--live_save', '-L', action='store_true', default=False, help="Enable live save.")

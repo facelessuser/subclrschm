@@ -511,8 +511,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 self.updates_made = False
                 if not self.live_save:
                     self.m_menuitem_save.Enable(False)
-            except Exception as e:
-                error(e)
+            except Exception:
                 basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme.JSON file!')
 
     def rebuild_tables(self, cur_row, cur_col):

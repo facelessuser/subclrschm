@@ -20,6 +20,7 @@ def parse_arguments(script):
     parser.add_argument('--version', action='version', version=('%(prog)s ' + __meta__.__version__))
     parser.add_argument('--debug', action='store_true', default=False, help=argparse.SUPPRESS)
     parser.add_argument('--no-redirect', action='store_true', default=False, help=argparse.SUPPRESS)
+    parser.add_argument('--multi-instance', '-m', action='store_true', default=False, help="Allow multiple instances")
     parser.add_argument(
         '--log', '-l', nargs='?', default=script,
         help="Absolute path to directory to store log file"
@@ -34,6 +35,24 @@ def parse_arguments(script):
     return parser.parse_args(util.to_unicode_argv()[1:])
 
 
+def get_log_location():
+    """Get log location."""
+
+    platform = util.platform()
+
+    if platform == "windows":
+        folder = os.path.expanduser("~\\.subclrschm")
+    elif platform == "osx":
+        folder = os.path.expanduser("~/.subclrschm")
+    elif platform == "linux":
+        folder = os.path.expanduser("~/.config/subclrschm")
+
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+
+    return folder
+
+
 def run():
     """Run the app."""
 
@@ -43,35 +62,41 @@ def run():
     script = os.path.dirname(os.path.abspath(sys.argv[0]))
     args = parse_arguments(script)
 
+    if not args.log:
+        args.log = get_log_location()
+
     if os.path.exists(args.log):
         args.log = os.path.join(os.path.normpath(args.log), 'subclrschm.log')
 
     custom_app.init_app_log(args.log)
     if args.debug:
         custom_app.set_debug_mode(True)
-    custom_app.debug('Starting ColorSchemeEditor')
-    custom_app.debug('Arguments = %s' % str(args))
 
-    app = custom_app.CustomApp(redirect=not args.no_redirect)  # , single_instance_name="subclrschm")
-    if args.file is None:
-        action = ""
-        if args.select:
-            action = "select"
-        elif args.new:
-            action = "new"
-        args.file = subclrschm_app.query_user_for_file(None, action)
+    app = custom_app.CustomApp(
+        redirect=not args.no_redirect,
+        single_instance_name="subclrschm" if not args.multi_instance else None
+    )
 
-    if args.file is not None:
-        j_file, t_file, cs = subclrschm_app.parse_file(args.file)
+    if args.multi_instance or app.is_instance_okay():
+        if args.file is None:
+            action = ""
+            if args.select:
+                action = "select"
+            elif args.new:
+                action = "new"
+            args.file = subclrschm_app.query_user_for_file(None, action)
 
-    if j_file is not None and t_file is not None:
-        main_win = subclrschm_app.Editor(
-            None, cs, j_file, t_file,
-            live_save=args.live_save,
-            debugging=args.debug
-        )
-        main_win.Show()
-        app.MainLoop()
+        if args.file is not None:
+            j_file, t_file, cs = subclrschm_app.parse_file(args.file)
+
+        if j_file is not None and t_file is not None:
+            main_win = subclrschm_app.Editor(
+                None, cs, j_file, t_file,
+                live_save=args.live_save,
+                debugging=args.debug
+            )
+            main_win.Show()
+            app.MainLoop()
     return 0
 
 

@@ -4,10 +4,10 @@ from . import messages
 from .custom_app import error
 
 
-def filepicker(msg, wildcard, save=False):
+def filepicker(msg, default_path, wildcard, save=False):
     """Call file picker."""
 
-    return messages.filepickermsg(msg, wildcard, save)
+    return messages.filepickermsg(msg, default_path, wildcard, save)
 
 
 def yesno(question, title='Yes or no?', bitmap=None, yes="Okay", no="Cancel"):

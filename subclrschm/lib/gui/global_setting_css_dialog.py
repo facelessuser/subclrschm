@@ -25,7 +25,7 @@ class GlobalCssEditor(gui.GlobalSettingCss, settings_key_bindings.SettingsKeyBin
         self.valid = True
 
         self.m_name_textbox.SetValue(self.obj_key)
-        self.m_value_textbox.SetValue(self.obj_val)
+        self.m_value_textbox.WriteText(self.obj_val)
 
     def is_name_valid(self):
         """Check if name is valid."""

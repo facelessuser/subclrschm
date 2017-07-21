@@ -614,6 +614,8 @@ class GlobalSettingCss ( wx.Dialog ):
 		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		self.m_value_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_PROCESS_TAB )
+		self.m_value_textbox.SetMinSize( wx.Size( 200,200 ) )
+		
 		fgSizer1.Add( self.m_value_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		

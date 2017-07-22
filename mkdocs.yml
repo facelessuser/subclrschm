@@ -5,8 +5,8 @@ copyright: Copyright &copy; 2013 - 2017 <a href="https://github.com/facelessuser
 
 pages:
   - Sublime Color Scheme Editor: index.md
-  # - Installation: installation.md
-  # - User Guide: usage.md
+  - Installation: installation.md
+  - User Guide: usage.md
   - Contributing &amp; Support: contributing.md
   - Changelog: changelog.md
   - License: license.md

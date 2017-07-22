@@ -25,7 +25,7 @@ def parse_arguments(script):
         '--log', '-l', nargs='?', default='',
         help="Absolute path to directory to store log file"
     )
-    parser.add_argument('--live_save', '-L', action='store_true', default=False, help="Enable live save.")
+    parser.add_argument('--live-save', '-L', action='store_true', default=False, help="Enable live save.")
     # Mutually exclusinve flags
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--select', '-s', action='store_true', default=False, help="Prompt for theme selection")

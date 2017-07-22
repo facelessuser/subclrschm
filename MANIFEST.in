@@ -4,11 +4,12 @@ recursive-include subclrschm/lib/data *.png *.icns *.ico *.js *.css
 recursive-include tests *.py
 recursive-include requirements *.txt
 recursive-include tools *.py
+include .dictionary
 include setup.py
 include setup.cfg
 include tox.ini
 include gui.fbp
 include mkdocs.yml
-include LICENSE.md
+include LICENSE
 include README.md
 include MANIFEST.in

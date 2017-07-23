@@ -1,20 +1,29 @@
 [![Unix Build Status][travis-image]][travis-link]
+[![pypi-version][pypi-image]][pypi-link]
 ![License][license-image]
 # Sublime Color Scheme Editor
 
 Sublime Color Scheme Editor for Sublime Text.  This is the GUI source code.
 
-# Supported Platforms
-## Windows
+## Supported Platforms
+
+Windows
+
 ![Windows](./docs/src/markdown/images/CSE_WIN.png)
 
-## macOS
+macOS
+
 ![macOS](./docs/src/markdown/images/CSE_OSX.png)
 
-## Linux
+Linux
+
 ![Ubuntu](./docs/src/markdown/images/CSE_NIX.png)
 
-# License
+## Documentation
+
+http://facelessuser.github.io/subclrschm/
+
+## License
 
 ColorSchemeEditor plugin is released under the MIT license.
 
@@ -28,4 +37,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 [travis-image]: https://img.shields.io/travis/facelessuser/subclrschm.svg
 [travis-link]: https://travis-ci.org/facelessuser/subclrschm
+[pypi-image]: https://img.shields.io/pypi/v/subclrschm.svg
+[pypi-link]: https://pypi.python.org/pypi/subclrschm
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg

@@ -119,7 +119,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         row = self.m_plist_grid.GetGridCursorRow()
         col = self.m_plist_grid.GetGridCursorCol()
         self.update_row(row, key, value)
-        self.update_plist(sc.JSON_MODIFY, {"table": "global", "index": key, "data": value})
+        self.update_plist(sc.MODIFY, {"table": "global", "index": key, "data": value})
         if key == "background" or key == "foreground":
             self.reshow(row, col)
         self.resize_table()
@@ -133,7 +133,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         if name in ('popupCss', 'phantomCss'):
             return
         self.m_plist_grid.DeleteRows(row, 1)
-        self.m_plist_grid.GetParent().update_plist(sc.JSON_DELETE, {"table": "global", "index": name})
+        self.m_plist_grid.GetParent().update_plist(sc.DELETE, {"table": "global", "index": name})
         if name == "foreground" or name == "background":
             self.m_plist_grid.GetParent().reshow(row, col)
 

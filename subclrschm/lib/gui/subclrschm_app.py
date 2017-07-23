@@ -7,7 +7,6 @@ Copyright (c) 2013 Isaac Muse <isaacmuse@gmail.com>
 from __future__ import unicode_literals
 import sys
 import codecs
-import json
 import os
 import plistlib
 import threading
@@ -23,9 +22,8 @@ from . import style_settings_panel
 from .about_dialog import AboutDialog
 from . import settings_codes as sc
 from .custom_app import DebugFrameExtender
-from .custom_app import debug, debug_struct
+from .custom_app import debug, debug_struct, error
 from ..default_new_theme import theme as default_new_theme
-from ..file_strip.json import sanitize_json
 from .. import data
 from .. import util
 
@@ -108,10 +106,7 @@ def query_user_for_file(parent, action):
     new_file = action == "new"
     select = False
     done = False
-    if sys.platform == "darwin":
-        wildcard = "(*.tmTheme;*.tmTheme.JSON)|*.tmTheme;*.JSON"
-    else:
-        wildcard = "(*.tmTheme;*.tmTheme.JSON)|*.tmTheme;*.tmTheme.JSON"
+    wildcard = "*.tmTheme"
     if not select_file and not new_file:
         select = basic_dialogs.yesno(
             "Create a new theme or select an existing one?", "Color Scheme Editor", yes="Select", no="New"
@@ -123,8 +118,8 @@ def query_user_for_file(parent, action):
             result = basic_dialogs.filepicker("Choose a theme file:", "", wildcard)
             if result is not None:
                 debug(result)
-                if not result.lower().endswith(".tmtheme.json") and not result.lower().endswith(".tmtheme"):
-                    basic_dialogs.errormsg("File must be of type '.tmtheme' or '.tmtheme.json'")
+                if not result.lower().endswith(".tmtheme"):
+                    basic_dialogs.errormsg("File must be of type '.tmtheme'")
                     debug("Select: Bad extension: %s" % result)
                     continue
                 file_path = result
@@ -133,25 +128,18 @@ def query_user_for_file(parent, action):
         else:
             result = basic_dialogs.filepicker("Theme file to save:", "", wildcard, True)
             if result is not None:
-                if not result.lower().endswith(".tmtheme.json") and not result.lower().endswith(".tmtheme"):
-                    basic_dialogs.errormsg("File must be of type '.tmtheme' or '.tmtheme.json'")
+                if not result.lower().endswith(".tmtheme"):
+                    basic_dialogs.errormsg("File must be of type '.tmtheme'")
                     debug("New: Bad extension: %s" % result)
                     continue
-                if result.lower().endswith("tmtheme.json"):
-                    with codecs.open(result, "w", "utf-8") as f:
-                        f.write(
-                            (
-                                json.dumps(
-                                    default_new_theme,
-                                    sort_keys=True, indent=4, separators=(',', ': ')
-                                ) + '\n'
-                            )
-                        )
-                else:
+                try:
                     with codecs.open(result, "w", "utf-8") as f:
                         f.write((util.dump_plist(default_new_theme) + '\n'))
-                file_path = result
-                debug("New: File selected: %s" % file_path)
+                    file_path = result
+                    debug("New: File selected: %s" % file_path)
+                except Exception:
+                    error(traceback.format_exc())
+                    basic_dialogs.errormsg('There was a problem writing the theme file!')
             done = True
     return file_path
 
@@ -159,52 +147,20 @@ def query_user_for_file(parent, action):
 def parse_file(file_path):
     """Parse the scheme file."""
 
-    j_file = None
     t_file = None
     color_scheme = None
-    is_json = file_path.lower().endswith("tmtheme.json")
 
     try:
-        if is_json:
-            with codecs.open(file_path, "r", encoding='utf-8') as f:
-                color_scheme = json.loads(sanitize_json(f.read(), True))
-        else:
-            with open(file_path, "rb") as f:
-                color_scheme = plistlib.readPlist(f)
+        with open(file_path, "rb") as f:
+            color_scheme = plistlib.readPlist(f)
     except Exception:
-        print(traceback.format_exc())
+        error(traceback.format_exc())
         basic_dialogs.errormsg('Unexpected problem trying to parse file!')
 
     if color_scheme is not None:
-        if is_json:
-            j_file = file_path
-            t_file = file_path[:-5]
+        t_file = file_path
 
-            if not os.path.exists(t_file):
-                try:
-                    with codecs.open(t_file, "w", "utf-8") as f:
-                        f.write((util.dump_plist(color_scheme) + '\n'))
-                except Exception:
-                    debug("tmTheme file write error!")
-        else:
-            j_file = file_path + ".JSON"
-            t_file = file_path
-
-            if not os.path.exists(j_file):
-                try:
-                    with codecs.open(j_file, "w", "utf-8") as f:
-                        f.write(
-                            (
-                                json.dumps(
-                                    color_scheme,
-                                    sort_keys=True, indent=4, separators=(',', ': ')
-                                ) + '\n'
-                            )
-                        )
-                except Exception:
-                    debug("JSON file write error!")
-
-    return j_file, t_file, color_scheme
+    return t_file, color_scheme
 
 
 #################################################
@@ -263,24 +219,7 @@ class LiveUpdate(threading.Thread):
     def update(self, queue):
         """Update the theme."""
 
-        request = None
-        for x in queue:
-            if x == "all":
-                request = x
-                break
-            elif x == "json":
-                if request == "tmtheme":
-                    request = "all"
-                else:
-                    request = x
-            elif x == "tmtheme":
-                if request == "json":
-                    request = "all"
-                    break
-                else:
-                    request = x
-
-        wx.CallAfter(self.func, request, "Live Thread")
+        wx.CallAfter(self.func, "Live Thread")
 
     def _process_queue(self):
         """Process the queue."""
@@ -318,7 +257,7 @@ class LiveUpdate(threading.Thread):
 class Editor(gui.EditorFrame, DebugFrameExtender):
     """Main editor."""
 
-    def __init__(self, parent, scheme, j_file, t_file, live_save, debugging=False):
+    def __init__(self, parent, scheme, t_file, live_save, debugging=False):
         """Initialize."""
 
         super(Editor, self).__init__(parent)
@@ -345,7 +284,6 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.last_UUID = None
         self.last_plist_name = None
         self.scheme = scheme
-        self.json = j_file
         self.tmtheme = t_file
         debug_struct(scheme, "Color Scheme")
 
@@ -380,36 +318,36 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def update_plist(self, code, args={}):
         """Update plist."""
 
-        if code == sc.JSON_UUID:
+        if code == sc.UUID:
             self.scheme["uuid"] = self.m_plist_uuid_textbox.GetValue()
             self.updates_made = True
-        elif code == sc.JSON_NAME:
+        elif code == sc.NAME:
             self.scheme["name"] = self.m_plist_name_textbox.GetValue()
             self.updates_made = True
-        elif code == sc.JSON_ADD and args is not None:
-            debug("JSON add")
+        elif code == sc.ADD and args is not None:
+            debug("Add")
             if args["table"] == "style":
                 self.scheme["settings"].insert(args["index"] + 1, args["data"])
             else:
                 self.scheme["settings"][0]["settings"][args["index"]] = args["data"]
             self.updates_made = True
-        elif code == sc.JSON_DELETE and args is not None:
-            debug("JSON delete")
+        elif code == sc.DELETE and args is not None:
+            debug("Delete")
             if args["table"] == "style":
                 del self.scheme["settings"][args["index"] + 1]
             else:
                 del self.scheme["settings"][0]["settings"][args["index"]]
             self.updates_made = True
-        elif code == sc.JSON_MOVE and args is not None:
-            debug("JSON move")
+        elif code == sc.MOVE and args is not None:
+            debug("Move")
             from_row = args["from"] + 1
             to_row = args["to"] + 1
             item = self.scheme["settings"][from_row]
             del self.scheme["settings"][from_row]
             self.scheme["settings"].insert(to_row, item)
             self.updates_made = True
-        elif code == sc.JSON_MODIFY and args is not None:
-            debug("JSON modify")
+        elif code == sc.MODIFY and args is not None:
+            debug("Modify")
             if args["table"] == "style":
                 obj = {
                     "name": args["data"]["name"],
@@ -486,33 +424,19 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             self.queue.append("tmtheme")
             self.update_thread.release_queue()
 
-    def save(self, request, requester="Main Thread"):
+    def save(self, requester="Main Thread"):
         """Save."""
 
-        debug("%s requested save - %s" % (requester, request))
-        if request == "tmtheme" or request == "all":
-            try:
-                with codecs.open(self.tmtheme, "w", "utf-8") as f:
-                    f.write((util.dump_plist(self.scheme) + '\n'))
-            except Exception:
-                basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme file!')
-
-        if request == "json" or request == "all":
-            try:
-                with codecs.open(self.json, "w", "utf-8") as f:
-                    f.write(
-                        (
-                            json.dumps(
-                                self.scheme,
-                                sort_keys=True, indent=4, separators=(',', ': ')
-                            ) + '\n'
-                        )
-                    )
-                self.updates_made = False
-                if not self.live_save:
-                    self.m_menuitem_save.Enable(False)
-            except Exception:
-                basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme.JSON file!')
+        debug("%s requested save" % requester)
+        try:
+            with codecs.open(self.tmtheme, "w", "utf-8") as f:
+                f.write((util.dump_plist(self.scheme) + '\n'))
+            self.updates_made = False
+            if not self.live_save:
+                self.m_menuitem_save.Enable(False)
+        except Exception:
+            error(traceback.format_exc())
+            basic_dialogs.errormsg('Unexpected problem trying to write .tmTheme file!')
 
     def rebuild_tables(self, cur_row, cur_col):
         """Rebuild the tables."""
@@ -627,11 +551,9 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             if self.live_save:
                 while not self.update_thread.is_done():
                     time.sleep(0.5)
-        if self.live_save and self.updates_made:
-            self.save("json")
         elif not self.live_save and self.updates_made:
             if basic_dialogs.yesno("You have unsaved changes.  Save?", "Color Scheme Editor"):
-                self.save("all")
+                self.save()
 
     def on_plist_name_blur(self, event):
         """Handle plist name blur event."""
@@ -639,7 +561,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         set_name = self.m_plist_name_textbox.GetValue()
         if set_name != self.last_plist_name:
             self.last_plist_name = set_name
-            self.update_plist(sc.JSON_NAME)
+            self.update_plist(sc.NAME)
         event.Skip()
 
     def on_uuid_button_click(self, event):
@@ -647,7 +569,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
 
         self.last_UUID = str(uuid.uuid4()).upper()
         self.m_plist_uuid_textbox.SetValue(self.last_UUID)
-        self.update_plist(sc.JSON_UUID)
+        self.update_plist(sc.UUID)
         event.Skip()
 
     def on_uuid_blur(self, event):
@@ -658,9 +580,10 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             uuid.UUID(set_uuid)
             if set_uuid != self.last_UUID:
                 self.last_UUID = set_uuid
-                self.update_plist(sc.JSON_UUID)
+                self.update_plist(sc.UUID)
         except Exception:
             self.on_uuid_button_click(event)
+            error(traceback.format_exc())
             basic_dialogs.errormsg('UUID is invalid! A new UUID has been generated.')
             debug("Bad UUID: %s!" % self.m_plist_uuid_textbox.GetValue())
         event.Skip()
@@ -678,9 +601,8 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.file_close_cleanup()
         save_file = query_user_for_file(self, action="select")
         if save_file is not None:
-            j_file, t_file, color_scheme = parse_file(save_file)
-            if j_file is not None and t_file is not None:
-                self.json = j_file
+            t_file, color_scheme = parse_file(save_file)
+            if t_file is not None:
                 self.tmtheme = t_file
                 self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))
                 self.scheme = color_scheme
@@ -694,23 +616,15 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         """Handle save event."""
 
         if not self.live_save:
-            self.save("all")
+            self.save()
 
     def on_save_as(self, event):
         """Handle save as event."""
 
         save_file = query_user_for_file(self, action="new")
         if save_file is not None:
-            j_file = None
             t_file = None
-            is_json = save_file.lower().endswith("tmtheme.json")
-            if is_json:
-                j_file = save_file
-                t_file = save_file[:-5]
-            else:
-                j_file = save_file + ".JSON"
-                t_file = save_file
-            self.json = j_file
+            t_file = save_file
             self.tmtheme = t_file
             self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))
             if self.live_save:
@@ -718,7 +632,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                     time.sleep(.2)
                 del self.queue[0:len(self.queue)]
                 self.update_thread.release_queue()
-            self.save("all")
+            self.save()
 
     def on_about(self, event):
         """Handle about event."""

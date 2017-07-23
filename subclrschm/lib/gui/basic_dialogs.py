@@ -1,7 +1,6 @@
 """Basic dialogs."""
 from __future__ import unicode_literals
 from . import messages
-from .custom_app import error
 
 
 def filepicker(msg, default_path, wildcard, save=False):
@@ -25,7 +24,6 @@ def infomsg(msg, title="INFO", bitmap=None):
 def errormsg(msg, title="ERROR", bitmap=None):
     """Error message."""
 
-    error(msg)
     messages.errormsg(msg, title, bitmap)
 
 

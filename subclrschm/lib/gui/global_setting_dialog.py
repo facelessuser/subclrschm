@@ -192,7 +192,7 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
                     row = 0
                 grid.GetParent().update_row(row, self.obj_key, self.obj_val)
                 grid.GetParent().go_cell(grid, row, 0)
-                self.Parent.update_plist(sc.JSON_ADD, {"table": "global", "index": self.obj_key, "data": self.obj_val})
+                self.Parent.update_plist(sc.ADD, {"table": "global", "index": self.obj_key, "data": self.obj_val})
             else:
                 self.Parent.set_global_object(self.obj_key, self.obj_val)
 

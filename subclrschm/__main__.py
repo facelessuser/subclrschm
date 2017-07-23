@@ -57,7 +57,6 @@ def run():
     """Run the app."""
 
     cs = None
-    j_file = None
     t_file = None
     script = os.path.dirname(os.path.abspath(sys.argv[0]))
     args = parse_arguments(script)
@@ -87,11 +86,11 @@ def run():
             args.file = subclrschm_app.query_user_for_file(None, action)
 
         if args.file is not None:
-            j_file, t_file, cs = subclrschm_app.parse_file(args.file)
+            t_file, cs = subclrschm_app.parse_file(args.file)
 
-        if j_file is not None and t_file is not None:
+        if t_file is not None:
             main_win = subclrschm_app.Editor(
-                None, cs, j_file, t_file,
+                None, cs, t_file,
                 live_save=args.live_save,
                 debugging=args.debug
             )

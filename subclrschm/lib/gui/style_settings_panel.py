@@ -138,7 +138,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
 
         row = self.m_plist_grid.GetGridCursorRow()
         self.update_row(row, obj)
-        self.update_plist(sc.JSON_MODIFY, {"table": "style", "index": row, "data": obj})
+        self.update_plist(sc.MODIFY, {"table": "style", "index": row, "data": obj})
         self.resize_table()
 
     def edit_cell(self):
@@ -165,7 +165,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
 
         row = self.m_plist_grid.GetGridCursorRow()
         self.m_plist_grid.DeleteRows(row, 1)
-        self.m_plist_grid.GetParent().update_plist(sc.JSON_DELETE, {"table": "style", "index": row})
+        self.m_plist_grid.GetParent().update_plist(sc.DELETE, {"table": "style", "index": row})
 
     def insert_row(self):
         """Handle inserting into row."""
@@ -204,7 +204,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
             [grid.SetCellTextColour(row - 1, x, fg[x]) for x in range(0, 5)]
             [grid.SetCellFont(row - 1, x, font[x]) for x in range(0, 5)]
             self.go_cell(grid, row - 1, col, True)
-            grid.GetParent().update_plist(sc.JSON_MOVE, {"from": row, "to": row - 1})
+            grid.GetParent().update_plist(sc.MOVE, {"from": row, "to": row - 1})
             grid.SetFocus()
 
     def row_down(self):
@@ -225,7 +225,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
             [grid.SetCellTextColour(row + 1, x, fg[x]) for x in range(0, 5)]
             [grid.SetCellFont(row + 1, x, font[x]) for x in range(0, 5)]
             self.go_cell(grid, row + 1, col, True)
-            grid.GetParent().update_plist(sc.JSON_MOVE, {"from": row, "to": row + 1})
+            grid.GetParent().update_plist(sc.MOVE, {"from": row, "to": row + 1})
             grid.SetFocus()
 
     def is_fontstyle_cell(self):
@@ -258,7 +258,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
             }
         }
         grid.GetParent().update_row(row, obj)
-        self.update_plist(sc.JSON_MODIFY, {"table": "style", "index": row, "data": obj})
+        self.update_plist(sc.MODIFY, {"table": "style", "index": row, "data": obj})
         self.resize_table()
 
     def toggle_bold(self):

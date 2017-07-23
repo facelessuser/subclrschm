@@ -30,10 +30,10 @@ def get_version():
 VER, DEVSTATUS = get_version()
 
 LONG_DESC = '''
-Subclrschm is a color scheme editor for Sublime Text 3.
+Sublime Color Scheme Editor (subclrschm) is a color scheme editor for Sublime Text 3.
 
 It is built with wxPython 4.0.0+ and requires Python 2.7 or 3.4+.
-You can learn more about using Rummage by `reading the docs`_.
+You can learn more about using subclrschm by `reading the docs`_.
 
 .. _`reading the docs`: http://facelessuser.github.io/subclrschm/
 

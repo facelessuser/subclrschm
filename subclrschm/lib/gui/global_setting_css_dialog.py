@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from . import basic_dialogs
 from . import gui
 from . import settings_key_bindings
+from .. import util
 
 
 class GlobalCssEditor(gui.GlobalSettingCss, settings_key_bindings.SettingsKeyBindings):
@@ -12,6 +13,8 @@ class GlobalCssEditor(gui.GlobalSettingCss, settings_key_bindings.SettingsKeyBin
         """Initialize."""
 
         super(GlobalCssEditor, self).__init__(parent)
+        if util.platform() == "windows":
+            self.SetDoubleBuffered(True)
         self.setup_keybindings()
         self.Fit()
         size = self.GetSize()

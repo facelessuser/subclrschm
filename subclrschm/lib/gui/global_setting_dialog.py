@@ -1,11 +1,12 @@
 """Global editor dialog."""
 from __future__ import unicode_literals
+import wx
 from . import basic_dialogs
 from . import gui
 from . import settings_key_bindings
 from . import settings_codes as sc
 from ..rgba import RGBA
-import wx
+from .. import util
 
 
 class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings):
@@ -15,6 +16,10 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
         """Initialize."""
 
         super(GlobalEditor, self).__init__(parent)
+
+        if util.platform() == "windows":
+            self.SetDoubleBuffered(True)
+
         self.setup_keybindings()
         self.Fit()
         size = self.GetSize()

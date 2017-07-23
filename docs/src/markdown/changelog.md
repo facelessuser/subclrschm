@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2
+
+Jul 23, 2017
+
+- **FIX**: `UUID` should be optional.
+
 ## 2.0.1
 
 Jul 23, 2017

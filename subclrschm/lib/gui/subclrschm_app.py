@@ -330,8 +330,8 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             raise
 
         self.m_plist_name_textbox.SetValue(scheme["name"])
-        self.m_plist_uuid_textbox.SetValue(scheme["uuid"])
-        self.last_UUID = scheme["uuid"]
+        self.m_plist_uuid_textbox.SetValue(scheme.get("uuid", ''))
+        self.last_UUID = scheme.get("uuid", '')
         self.last_plist_name = scheme["name"]
 
         self.m_plist_notebook.InsertPage(0, self.m_global_settings, "Global Settings", True)
@@ -351,7 +351,12 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         """Update plist."""
 
         if code == sc.UUID:
-            self.scheme["uuid"] = self.m_plist_uuid_textbox.GetValue()
+            this_uuid = self.m_plist_uuid_textbox.GetValue()
+            if this_uuid == "":
+                if "uuid" in self.scheme:
+                    del self.scheme["uuid"]
+            else:
+                self.scheme["uuid"] = self.m_plist_uuid_textbox.GetValue()
             self.updates_made = True
         elif code == sc.NAME:
             self.scheme["name"] = self.m_plist_name_textbox.GetValue()
@@ -418,7 +423,12 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         """Rebuild plist."""
 
         self.scheme["name"] = self.m_plist_name_textbox.GetValue()
-        self.scheme["uuid"] = self.m_plist_uuid_textbox.GetValue()
+        this_uuid = self.m_plist_uuid_textbox.GetValue()
+        if this_uuid == "":
+            if "uuid" in self.scheme:
+                del self.scheme['uuid']
+        else:
+            self.scheme["uuid"] = this_uuid
         self.scheme["settings"] = [{"settings": {}}]
         for r in range(0, self.m_global_settings.m_plist_grid.GetNumberRows()):
             key = self.m_global_settings.m_plist_grid.GetCellValue(r, 0)
@@ -614,10 +624,15 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             return
         try:
             set_uuid = self.m_plist_uuid_textbox.GetValue()
-            uuid.UUID(set_uuid)
-            if set_uuid != self.last_UUID:
-                self.last_UUID = set_uuid
-                self.update_plist(sc.UUID)
+            if set_uuid == '':
+                if set_uuid != self.last_UUID:
+                    self.last_UUID = set_uuid
+                    self.update_plist(sc.UUID)
+            else:
+                uuid.UUID(set_uuid)
+                if set_uuid != self.last_UUID:
+                    self.last_UUID = set_uuid
+                    self.update_plist(sc.UUID)
         except Exception:
             self.on_uuid_button_click(event)
             error(traceback.format_exc())
@@ -644,8 +659,8 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))
                 self.scheme = color_scheme
                 self.m_plist_name_textbox.SetValue(self.scheme["name"])
-                self.m_plist_uuid_textbox.SetValue(self.scheme["uuid"])
-                self.last_UUID = self.scheme["uuid"]
+                self.m_plist_uuid_textbox.SetValue(self.scheme.get("uuid", ""))
+                self.last_UUID = self.scheme.get("uuid", "")
                 self.last_plist_name = self.scheme["name"]
                 self.rebuild_tables(None, None)
 

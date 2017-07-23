@@ -257,10 +257,11 @@ class LiveUpdate(threading.Thread):
 class Editor(gui.EditorFrame, DebugFrameExtender):
     """Main editor."""
 
-    def __init__(self, parent, scheme, t_file, live_save, debugging=False):
+    def __init__(self, parent, scheme_file, action, live_save, debugging=False):
         """Initialize."""
 
         super(Editor, self).__init__(parent)
+        self.ready = False
         self.SetIcon(data.get_image('subclrschm_large.png').GetIcon())
         self.live_save = bool(live_save)
         self.updates_made = False
@@ -276,13 +277,28 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             ],
             self.on_debug_console if debugging else None
         )
-        if debugging:
-            self.open_debug_console()
-        self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))
         self.search_results = []
         self.cur_search = None
         self.last_UUID = None
         self.last_plist_name = None
+        self.m_menuitem_save.Enable(False)
+        self.queue = []
+        self.debugging = debugging
+
+        if scheme_file is None:
+            scheme_file = query_user_for_file(self, action)
+
+        if scheme_file is not None:
+            t_file, cs = parse_file(scheme_file)
+            if t_file is not None:
+                self.init_frame(cs, t_file)
+
+    def init_frame(self, scheme, t_file):
+        """Show the main frame."""
+
+        if self.debugging:
+            self.open_debug_console()
+        self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))
         self.scheme = scheme
         self.tmtheme = t_file
         debug_struct(scheme, "Color Scheme")
@@ -306,14 +322,18 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.last_UUID = scheme["uuid"]
         self.last_plist_name = scheme["name"]
 
-        self.m_menuitem_save.Enable(False)
-
         self.m_plist_notebook.InsertPage(0, self.m_global_settings, "Global Settings", True)
         self.m_plist_notebook.InsertPage(1, self.m_style_settings, "Scope Settings", False)
-        self.queue = []
         if self.live_save:
             self.update_thread = LiveUpdate(self.save, self.queue)
             self.update_thread.start()
+
+        self.ready = True
+
+    def is_ready(self):
+        """Get whether dialog is ready to show."""
+
+        return self.ready
 
     def update_plist(self, code, args={}):
         """Update plist."""

@@ -56,8 +56,6 @@ def get_log_location():
 def run():
     """Run the app."""
 
-    cs = None
-    t_file = None
     script = os.path.dirname(os.path.abspath(sys.argv[0]))
     args = parse_arguments(script)
 
@@ -77,23 +75,20 @@ def run():
     )
 
     if args.multi_instance or app.is_instance_okay():
-        if args.file is None:
-            action = ""
-            if args.select:
-                action = "select"
-            elif args.new:
-                action = "new"
-            args.file = subclrschm_app.query_user_for_file(None, action)
 
-        if args.file is not None:
-            t_file, cs = subclrschm_app.parse_file(args.file)
+        action = ""
+        if args.select:
+            action = "select"
+        elif args.new:
+            action = "new"
 
-        if t_file is not None:
-            main_win = subclrschm_app.Editor(
-                None, cs, t_file,
-                live_save=args.live_save,
-                debugging=args.debug
-            )
+        main_win = subclrschm_app.Editor(
+            None, args.file, action,
+            live_save=args.live_save,
+            debugging=args.debug
+        )
+
+        if main_win.is_ready():
             main_win.Show()
             app.MainLoop()
     return 0

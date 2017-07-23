@@ -66,6 +66,9 @@ setup(
             'subclrschm=subclrschm.__main__:main'
         ]
     },
+    package_data={
+        'subclrschm.lib.gui.data': ['*.png', '*.ico', '*.icns']
+    },
     license='MIT License',
     classifiers=[
         'Development Status :: 5 - Production/Stable',

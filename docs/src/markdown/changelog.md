@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+Jul 23, 2017
+
+- **FIX**: Include images as data in `setup.py` when installing.
+
 ## 2.0.0
 
 Jul 23, 2017

@@ -83,13 +83,15 @@ def run():
             action = "new"
 
         main_win = subclrschm_app.Editor(
-            None, args.file, action,
+            None,
             live_save=args.live_save,
             debugging=args.debug
         )
 
+        main_win.Show()
+        main_win.init_frame(args.file, action)
+
         if main_win.is_ready():
-            main_win.Show()
             app.MainLoop()
     return 0
 

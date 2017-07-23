@@ -257,7 +257,7 @@ class LiveUpdate(threading.Thread):
 class Editor(gui.EditorFrame, DebugFrameExtender):
     """Main editor."""
 
-    def __init__(self, parent, scheme_file, action, live_save, debugging=False):
+    def __init__(self, parent, live_save, debugging=False):
         """Initialize."""
 
         super(Editor, self).__init__(parent)
@@ -289,16 +289,21 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.queue = []
         self.debugging = debugging
 
+    def init_frame(self, scheme_file, action):
+        """Show the main frame."""
+
+        t_file = None
+        scheme = None
+
         if scheme_file is None:
             scheme_file = query_user_for_file(self, action)
 
         if scheme_file is not None:
-            t_file, cs = parse_file(scheme_file)
-            if t_file is not None:
-                self.init_frame(cs, t_file)
+            t_file, scheme = parse_file(scheme_file)
 
-    def init_frame(self, scheme, t_file):
-        """Show the main frame."""
+        if t_file is None:
+            self.Close()
+            return
 
         if self.debugging:
             self.open_debug_console()
@@ -582,11 +587,13 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def on_plist_name_blur(self, event):
         """Handle plist name blur event."""
 
+        event.Skip()
+        if not self.is_ready():
+            return
         set_name = self.m_plist_name_textbox.GetValue()
         if set_name != self.last_plist_name:
             self.last_plist_name = set_name
             self.update_plist(sc.NAME)
-        event.Skip()
 
     def on_uuid_button_click(self, event):
         """Handle UUID button event."""
@@ -599,6 +606,9 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def on_uuid_blur(self, event):
         """Handle UUID blur event."""
 
+        event.Skip()
+        if not self.is_ready():
+            return
         try:
             set_uuid = self.m_plist_uuid_textbox.GetValue()
             uuid.UUID(set_uuid)
@@ -610,7 +620,6 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             error(traceback.format_exc())
             basic_dialogs.errormsg('UUID is invalid! A new UUID has been generated.')
             debug("Bad UUID: %s!" % self.m_plist_uuid_textbox.GetValue())
-        event.Skip()
 
     def on_plist_notebook_size(self, event):
         """Handle plist notebook size event."""

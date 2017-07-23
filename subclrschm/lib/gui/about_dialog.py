@@ -21,7 +21,7 @@ DEALINGS IN THE SOFTWARE.
 from __future__ import unicode_literals
 import wx
 from . import gui
-from .. import data
+from . import data
 from .. import __meta__
 
 

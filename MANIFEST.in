@@ -1,6 +1,6 @@
 recursive-include subclrschm *.py
 recursive-include docs *.md *.png *.gif *.js *.css *.html
-recursive-include subclrschm/lib/data *.png *.icns *.ico *.js *.css
+recursive-include subclrschm/lib/gui/data *.png *.icns *.ico *.js *.css
 recursive-include tests *.py
 recursive-include requirements *.txt
 recursive-include tools *.py

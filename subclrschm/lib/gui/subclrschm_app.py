@@ -15,16 +15,16 @@ import uuid
 import wx
 import traceback
 
+from .about_dialog import AboutDialog
+from .custom_app import DebugFrameExtender
+from .custom_app import debug, debug_struct, error
 from . import basic_dialogs
 from . import gui
 from . import global_settings_panel
 from . import style_settings_panel
-from .about_dialog import AboutDialog
+from . import data
 from . import settings_codes as sc
-from .custom_app import DebugFrameExtender
-from .custom_app import debug, debug_struct, error
 from ..default_new_theme import theme as default_new_theme
-from .. import data
 from .. import util
 
 DEBUG_CONSOLE = False

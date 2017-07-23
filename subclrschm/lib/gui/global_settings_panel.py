@@ -1,5 +1,6 @@
 """Global settigns panel."""
 from __future__ import unicode_literals
+import wx
 from . import gui
 from . import grid_helper
 from . import global_setting_dialog
@@ -7,7 +8,7 @@ from . import global_setting_css_dialog
 from . import settings_codes as sc
 from ..rgba import RGBA
 from ..x11colors import name2hex
-import wx
+from .. import util
 
 
 class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
@@ -17,6 +18,8 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         """Initialize."""
 
         super(GlobalSettings, self).__init__(parent)
+        if util.platform() == "windows":
+            self.SetDoubleBuffered(False)
         self.setup_keybindings()
         self.parent = parent
         self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)

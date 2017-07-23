@@ -262,6 +262,8 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
 
         super(Editor, self).__init__(parent)
         self.ready = False
+        if util.platform() == "windows":
+            self.SetDoubleBuffered(True)
         self.SetIcon(data.get_image('subclrschm_large.png').GetIcon())
         self.live_save = bool(live_save)
         self.updates_made = False

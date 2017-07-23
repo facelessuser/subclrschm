@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Jun 22 2017)
+## Python code generated with wxFormBuilder (version Dec 21 2016)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
@@ -47,14 +47,14 @@ class EditorFrame ( wx.Frame ):
 		
 		self.m_plist_name_label = wx.StaticText( self.m_main_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_plist_name_label.Wrap( -1 )
-		fgSizer2.Add( self.m_plist_name_label, 0, wx.ALL, 5 )
+		fgSizer2.Add( self.m_plist_name_label, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.m_plist_name_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer2.Add( self.m_plist_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_plist_uuid_label = wx.StaticText( self.m_main_panel, wx.ID_ANY, u"UUID", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_plist_uuid_label.Wrap( -1 )
-		fgSizer2.Add( self.m_plist_uuid_label, 0, wx.ALL, 5 )
+		fgSizer2.Add( self.m_plist_uuid_label, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		fgSizer10 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer10.AddGrowableCol( 0 )
@@ -72,7 +72,7 @@ class EditorFrame ( wx.Frame ):
 		
 		self.m_search_label = wx.StaticText( self.m_main_panel, wx.ID_ANY, u"Find", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_search_label.Wrap( -1 )
-		fgSizer2.Add( self.m_search_label, 0, wx.ALL, 5 )
+		fgSizer2.Add( self.m_search_label, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		fgSizer11 = wx.FlexGridSizer( 0, 3, 0, 0 )
 		fgSizer11.AddGrowableCol( 0 )
@@ -268,7 +268,7 @@ class GlobalSettingsPanel ( wx.Panel ):
 		self.m_plist_grid.SetColLabelSize( 30 )
 		self.m_plist_grid.SetColLabelValue( 0, u"Name" )
 		self.m_plist_grid.SetColLabelValue( 1, u"Value" )
-		self.m_plist_grid.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		self.m_plist_grid.SetColLabelAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTRE )
 		
 		# Rows
 		self.m_plist_grid.EnableDragRowSize( False )
@@ -495,7 +495,7 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		self.m_color_checkbox = wx.CheckBox( self.m_global_setting_panel, wx.ID_ANY, u"Color", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer2.Add( self.m_color_checkbox, 0, wx.ALL, 5 )
+		fgSizer2.Add( self.m_color_checkbox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.m_color_picker = wx.Panel( self.m_global_setting_panel, wx.ID_ANY, wx.DefaultPosition, wx.Size( 30,-1 ), wx.SUNKEN_BORDER|wx.TAB_TRAVERSAL )
 		fgSizer2.Add( self.m_color_picker, 1, wx.EXPAND |wx.ALL, 5 )
@@ -706,7 +706,7 @@ class ColorSetting ( wx.Dialog ):
 		self.m_name_label.Wrap( -1 )
 		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
-		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
 		self.m_name_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer1.Add( self.m_name_textbox, 1, wx.ALL|wx.EXPAND, 5 )
@@ -715,7 +715,7 @@ class ColorSetting ( wx.Dialog ):
 		self.m_scope_label.Wrap( -1 )
 		self.m_scope_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
-		fgSizer1.Add( self.m_scope_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+		fgSizer1.Add( self.m_scope_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
 		self.m_scope_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		fgSizer1.Add( self.m_scope_textbox, 0, wx.ALL|wx.EXPAND, 5 )

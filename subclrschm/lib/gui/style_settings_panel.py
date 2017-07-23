@@ -7,6 +7,7 @@ from . import grid_helper
 from . import settings_codes as sc
 from ..rgba import RGBA
 from ..x11colors import name2hex
+from .. import util
 
 
 class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
@@ -16,6 +17,8 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         """Initialize."""
 
         super(StyleSettings, self).__init__(parent)
+        if util.platform() == "windows":
+            self.SetDoubleBuffered(False)
         self.setup_keybindings()
         self.parent = parent
         self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)

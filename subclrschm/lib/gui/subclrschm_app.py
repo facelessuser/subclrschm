@@ -262,6 +262,8 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
 
         super(Editor, self).__init__(parent)
         self.ready = False
+        self.m_global_settings = None
+        self.m_style_settings = None
         if util.platform() == "windows":
             self.SetDoubleBuffered(True)
         self.SetIcon(data.get_image('subclrschm_large.png').GetIcon())
@@ -613,8 +615,9 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def on_plist_notebook_size(self, event):
         """Handle plist notebook size event."""
 
-        self.m_global_settings.resize_table()
-        self.m_style_settings.resize_table()
+        if self.m_global_settings and self.m_style_settings:
+            self.m_global_settings.resize_table()
+            self.m_style_settings.resize_table()
         event.Skip()
 
     def on_open_new(self, event):

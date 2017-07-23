@@ -29,6 +29,7 @@ class EditorFrame ( wx.Frame ):
 		
 		self.m_main_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		self.m_main_panel.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
+		self.m_main_panel.SetMinSize( wx.Size( 500,400 ) )
 		
 		bSizer2 = wx.BoxSizer( wx.VERTICAL )
 		

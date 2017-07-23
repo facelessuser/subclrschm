@@ -288,6 +288,9 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.m_menuitem_save.Enable(False)
         self.queue = []
         self.debugging = debugging
+        self.m_main_panel.Fit()
+        self.Fit()
+        self.SetMinSize(self.GetSize())
 
     def init_frame(self, scheme_file, action):
         """Show the main frame."""

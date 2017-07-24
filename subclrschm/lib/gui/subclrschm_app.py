@@ -680,10 +680,15 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def on_open_new(self, event):
         """Handle open new event."""
 
-        self.file_close_cleanup()
-        save_file = query_user_for_file(self, action="select")
-        if save_file is not None:
-            t_file, color_scheme = parse_file(save_file)
+        scheme_file = query_user_for_file(self, action="select")
+        self.open_new(scheme_file)
+
+    def open_new(self, scheme_file):
+        """Open new scheme file."""
+
+        if scheme_file is not None:
+            self.file_close_cleanup()
+            t_file, color_scheme = parse_file(scheme_file)
             if t_file is not None:
                 self.tmtheme = t_file
                 self.SetTitle("Color Scheme Editor - %s" % os.path.basename(t_file))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Dec 21 2016)
+## Python code generated with wxFormBuilder (version Jun 22 2017)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO "NOT" EDIT THIS FILE!
@@ -50,7 +50,7 @@ class EditorFrame ( wx.Frame ):
 		self.m_plist_name_label.Wrap( -1 )
 		fgSizer2.Add( self.m_plist_name_label, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		self.m_plist_name_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_plist_name_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_PROCESS_ENTER )
 		fgSizer2.Add( self.m_plist_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_plist_uuid_label = wx.StaticText( self.m_main_panel, wx.ID_ANY, u"UUID", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -62,7 +62,7 @@ class EditorFrame ( wx.Frame ):
 		fgSizer10.SetFlexibleDirection( wx.BOTH )
 		fgSizer10.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.m_plist_uuid_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_plist_uuid_textbox = wx.TextCtrl( self.m_main_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_PROCESS_ENTER )
 		fgSizer10.Add( self.m_plist_uuid_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_uuid_button = wx.Button( self.m_main_panel, wx.ID_ANY, u"Generate", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -148,7 +148,9 @@ class EditorFrame ( wx.Frame ):
 		self.Bind( wx.EVT_CLOSE, self.on_close )
 		self.Bind( wx.EVT_KEY_DOWN, self.on_global_key_down )
 		self.m_plist_name_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_plist_name_blur )
+		self.m_plist_name_textbox.Bind( wx.EVT_TEXT_ENTER, self.on_name_enter )
 		self.m_plist_uuid_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_uuid_blur )
+		self.m_plist_uuid_textbox.Bind( wx.EVT_TEXT_ENTER, self.on_uuid_enter )
 		self.m_uuid_button.Bind( wx.EVT_BUTTON, self.on_uuid_button_click )
 		self.m_search_panel.Bind( wx.EVT_TEXT, self.on_find )
 		self.m_search_panel.Bind( wx.EVT_TEXT_ENTER, self.on_find_finish )
@@ -175,7 +177,13 @@ class EditorFrame ( wx.Frame ):
 	def on_plist_name_blur( self, event ):
 		event.Skip()
 	
+	def on_name_enter( self, event ):
+		event.Skip()
+	
 	def on_uuid_blur( self, event ):
+		event.Skip()
+	
+	def on_uuid_enter( self, event ):
 		event.Skip()
 	
 	def on_uuid_button_click( self, event ):

@@ -18,6 +18,7 @@ import traceback
 from .about_dialog import AboutDialog
 from .custom_app import DebugFrameExtender
 from .custom_app import debug, debug_struct, error
+from . import custom_statusbar
 from . import basic_dialogs
 from . import gui
 from . import global_settings_panel
@@ -288,6 +289,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.m_menuitem_save.Enable(False)
         self.queue = []
         self.debugging = debugging
+        custom_statusbar.extend_sb(self.m_statusbar)
         self.m_main_panel.Fit()
         self.Fit()
         self.SetMinSize(self.GetSize())
@@ -417,6 +419,11 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             self.queue.append("tmtheme")
             self.update_thread.release_queue()
         elif self.updates_made:
+            self.m_statusbar.set_icon(
+                "unsaved",
+                data.get_bitmap('floppy.png'),
+                msg="Unsaved changes"
+            )
             self.m_menuitem_save.Enable(True)
 
     def rebuild_plist(self):
@@ -475,6 +482,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 f.write((util.dump_plist(self.scheme) + '\n'))
             self.updates_made = False
             if not self.live_save:
+                self.m_statusbar.remove_icon('unsaved')
                 self.m_menuitem_save.Enable(False)
         except Exception:
             error(traceback.format_exc())
@@ -597,31 +605,17 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             if basic_dialogs.yesno("You have unsaved changes.  Save?", "Color Scheme Editor"):
                 self.save()
 
-    def on_plist_name_blur(self, event):
-        """Handle plist name blur event."""
+    def check_name(self):
+        """Check the name."""
 
-        event.Skip()
-        if not self.is_ready():
-            return
         set_name = self.m_plist_name_textbox.GetValue()
         if set_name != self.last_plist_name:
             self.last_plist_name = set_name
             self.update_plist(sc.NAME)
 
-    def on_uuid_button_click(self, event):
-        """Handle UUID button event."""
+    def check_uuid(self):
+        """Check UUID."""
 
-        self.last_UUID = str(uuid.uuid4()).upper()
-        self.m_plist_uuid_textbox.SetValue(self.last_UUID)
-        self.update_plist(sc.UUID)
-        event.Skip()
-
-    def on_uuid_blur(self, event):
-        """Handle UUID blur event."""
-
-        event.Skip()
-        if not self.is_ready():
-            return
         try:
             set_uuid = self.m_plist_uuid_textbox.GetValue()
             if set_uuid == '':
@@ -638,6 +632,42 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             error(traceback.format_exc())
             basic_dialogs.errormsg('UUID is invalid! A new UUID has been generated.')
             debug("Bad UUID: %s!" % self.m_plist_uuid_textbox.GetValue())
+
+    def on_plist_name_blur(self, event):
+        """Handle plist name blur event."""
+
+        event.Skip()
+        if not self.is_ready():
+            return
+        self.check_name()
+
+    def on_name_enter(self, event):
+        """Handle plist name on enter key."""
+
+        event.Skip()
+        self.check_name()
+
+    def on_uuid_button_click(self, event):
+        """Handle UUID button event."""
+
+        self.last_UUID = str(uuid.uuid4()).upper()
+        self.m_plist_uuid_textbox.SetValue(self.last_UUID)
+        self.update_plist(sc.UUID)
+        event.Skip()
+
+    def on_uuid_blur(self, event):
+        """Handle UUID blur event."""
+
+        event.Skip()
+        if not self.is_ready():
+            return
+        self.check_uuid()
+
+    def on_uuid_enter(self, event):
+        """Handle UUID on enter key."""
+
+        event.Skip()
+        self.check_uuid()
 
     def on_plist_notebook_size(self, event):
         """Handle plist notebook size event."""

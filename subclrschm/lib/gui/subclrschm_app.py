@@ -613,7 +613,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             self.last_plist_name = set_name
             self.update_plist(sc.NAME)
 
-    def check_uuid(self):
+    def check_uuid(self, event):
         """Check UUID."""
 
         try:
@@ -661,13 +661,13 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         event.Skip()
         if not self.is_ready():
             return
-        self.check_uuid()
+        self.check_uuid(event)
 
     def on_uuid_enter(self, event):
         """Handle UUID on enter key."""
 
         event.Skip()
-        self.check_uuid()
+        self.check_uuid(event)
 
     def on_plist_notebook_size(self, event):
         """Handle plist notebook size event."""

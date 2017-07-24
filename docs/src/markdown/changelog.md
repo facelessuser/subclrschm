@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.0
+
+Jul XX, 2017
+
+- **NEW**: Show visual indicator when unsaved changes are present.
+- **NEW**: Apply name and UUID if enter is pressed in the respective text box.
+- **FIX**: Fix issue where event isn't passed into UUID check.
+
 ## 2.0.2
 
 Jul 23, 2017

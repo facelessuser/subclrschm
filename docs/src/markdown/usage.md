@@ -58,19 +58,11 @@ You can navigate the entries with the arrow keys or by using the mouse.
 
 ### Edit Dialog
 
-![Edit Global](./images/edit_global.png)
-
 ![Edit Global Color](./images/edit_global_color.png)
 
-When editing an entry, the edit dialog will allow you to either insert a string value, or a color value when color checkbox is selected.  When dealing with a color, you will get a color preview as you change the color's hex value, you can also click the color box to bring up your system's color picker (or a generic color picker in the case of Linux).
+When editing an entry, the edit dialog will allow you to either insert a string value when the `Text` radio button is selected, or a color value when the color radio button is selected.  When dealing with a color, you will get a color preview as you change the color's hex value, you can also click the color box to bring up your system's color picker (or a generic color picker in the case of Linux).
 
 Transparent colors are allowed and are represented by the following form `#RRGGBBAA`. Color previews will simulate the transparent color by overlaying foreground colors over the rule's background color (defaults to global background if entry does not contain a background or it is simulating that entry's background color).
-
-### Edit CSS Dialog
-
-![Edit Global CSS](./images/edit_global_css.png)
-
-The `popupCss` and `phantomCss` entries are handled special and will present you with dialog showing a multi-line text box where you can enter your CSS.  If your color scheme does not have these entries, they will be injected automatically.
 
 ### Scope Settings
 

@@ -24,8 +24,6 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
         self.Fit()
         size = self.GetSize()
         self.SetMinSize(size)
-        size.Set(-1, size[1])
-        self.SetMaxSize(size)
         self.obj_key = name
         self.obj_val = value
         self.color_save = ""
@@ -43,10 +41,11 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
             self.color_setting = True
             self.color_save = self.obj_val
             self.m_color_picker.Enable()
-            self.m_color_checkbox.SetValue(True)
+            self.m_color_radio.SetValue(True)
+            self.m_value_textbox.SetValue(self.obj_val)
         except:
-            pass
-        self.m_value_textbox.SetValue(self.obj_val)
+            self.m_text_radio.SetValue(True)
+            self.m_text_textbox.SetValue(self.obj_val)
 
     def on_color_button_click(self, event):
         """Handle color button click event."""
@@ -78,10 +77,12 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
         dlg.Destroy()
         event.Skip()
 
-    def on_global_checkbox(self, event):
-        """Handle global checkbox event."""
-
-        if event.IsChecked():
+    def on_radio_click(self, event):
+        """Handle radio event."""
+        obj = event.GetEventObject()
+        if obj is self.m_color_radio:
+            self.m_text_textbox.Disable()
+            self.m_value_textbox.Enable()
             self.m_color_picker.Enable()
             self.color_setting = True
             try:
@@ -93,7 +94,9 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
         else:
             self.color_setting = False
             self.m_color_picker.Disable()
+            self.m_value_textbox.Disable()
             self.m_color_picker.SetBackgroundColour(wx.Colour(255, 255, 255))
+            self.m_text_textbox.Enable()
             self.m_color_picker.Refresh()
         event.Skip()
 
@@ -184,7 +187,9 @@ class GlobalEditor(gui.GlobalSetting, settings_key_bindings.SettingsKeyBindings)
         self.current_name = self.obj_key
 
         if self.apply_settings:
-            self.obj_val = self.m_value_textbox.GetValue()
+            self.obj_val = (
+                self.m_value_textbox.GetValue() if self.m_color_radio.GetValue() else self.m_text_textbox.GetValue()
+            )
 
             if self.insert:
                 grid = self.Parent.m_global_settings.m_plist_grid

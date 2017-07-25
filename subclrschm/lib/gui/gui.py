@@ -31,8 +31,6 @@ class EditorFrame ( wx.Frame ):
 		self.m_main_panel.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		self.m_main_panel.SetMinSize( wx.Size( 500,400 ) )
 		
-		bSizer2 = wx.BoxSizer( wx.VERTICAL )
-		
 		fgSizer1 = wx.FlexGridSizer( 2, 1, 0, 0 )
 		fgSizer1.AddGrowableCol( 0 )
 		fgSizer1.AddGrowableRow( 1 )
@@ -105,12 +103,9 @@ class EditorFrame ( wx.Frame ):
 		fgSizer1.Add( self.m_plist_notebook, 1, wx.BOTTOM|wx.EXPAND|wx.LEFT|wx.RIGHT, 5 )
 		
 		
-		bSizer2.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.m_main_panel.SetSizer( bSizer2 )
+		self.m_main_panel.SetSizer( fgSizer1 )
 		self.m_main_panel.Layout()
-		bSizer2.Fit( self.m_main_panel )
+		fgSizer1.Fit( self.m_main_panel )
 		bSizer1.Add( self.m_main_panel, 1, wx.EXPAND |wx.ALL, 0 )
 		
 		
@@ -471,40 +466,59 @@ class StyleSettingsPanel ( wx.Panel ):
 class GlobalSetting ( wx.Dialog ):
 	
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Global Setting", pos = wx.DefaultPosition, size = wx.Size( 500,150 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Global Setting", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
 		
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.Size( 500,200 ), wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 		
 		self.m_global_setting_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		bSizer2 = wx.BoxSizer( wx.VERTICAL )
-		
-		fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer1.AddGrowableCol( 1 )
+		fgSizer1 = wx.FlexGridSizer( 0, 1, 0, 0 )
+		fgSizer1.AddGrowableCol( 0 )
+		fgSizer1.AddGrowableRow( 2 )
 		fgSizer1.SetFlexibleDirection( wx.BOTH )
 		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		fgSizer20 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer20.AddGrowableCol( 1 )
+		fgSizer20.SetFlexibleDirection( wx.BOTH )
+		fgSizer20.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		self.m_name_label = wx.StaticText( self.m_global_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_name_label.Wrap( -1 )
 		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
-		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+		fgSizer20.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 		
 		self.m_name_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
+		fgSizer20.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer1.Add( fgSizer20, 1, wx.EXPAND, 5 )
 		
-		fgSizer2 = wx.FlexGridSizer( 0, 4, 0, 0 )
-		fgSizer2.AddGrowableCol( 2 )
+		self.m_staticline5 = wx.StaticLine( self.m_global_setting_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+		fgSizer1.Add( self.m_staticline5, 0, wx.EXPAND |wx.ALL, 5 )
+		
+		fgSizer25 = wx.FlexGridSizer( 0, 1, 0, 0 )
+		fgSizer25.AddGrowableCol( 0 )
+		fgSizer25.AddGrowableRow( 0 )
+		fgSizer25.SetFlexibleDirection( wx.BOTH )
+		fgSizer25.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		fgSizer21 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer21.AddGrowableCol( 1 )
+		fgSizer21.AddGrowableRow( 1 )
+		fgSizer21.SetFlexibleDirection( wx.BOTH )
+		fgSizer21.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_color_radio = wx.RadioButton( self.m_global_setting_panel, wx.ID_ANY, u"Color", wx.DefaultPosition, wx.DefaultSize, wx.RB_GROUP )
+		fgSizer21.Add( self.m_color_radio, 0, wx.ALL, 5 )
+		
+		fgSizer2 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer2.AddGrowableCol( 1 )
 		fgSizer2.SetFlexibleDirection( wx.BOTH )
 		fgSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_color_checkbox = wx.CheckBox( self.m_global_setting_panel, wx.ID_ANY, u"Color", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer2.Add( self.m_color_checkbox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.m_color_picker = wx.Panel( self.m_global_setting_panel, wx.ID_ANY, wx.DefaultPosition, wx.Size( 30,-1 ), wx.SUNKEN_BORDER|wx.TAB_TRAVERSAL )
 		fgSizer2.Add( self.m_color_picker, 1, wx.EXPAND |wx.ALL, 5 )
@@ -513,10 +527,21 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer2.Add( self.m_value_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( fgSizer2, 1, wx.EXPAND, 5 )
+		fgSizer21.Add( fgSizer2, 1, wx.EXPAND, 5 )
+		
+		self.m_text_radio = wx.RadioButton( self.m_global_setting_panel, wx.ID_ANY, u"Text", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer21.Add( self.m_text_radio, 0, wx.ALL, 5 )
+		
+		self.m_text_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_PROCESS_ENTER|wx.TE_PROCESS_TAB )
+		self.m_text_textbox.SetMinSize( wx.Size( -1,30 ) )
+		
+		fgSizer21.Add( self.m_text_textbox, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer25.Add( fgSizer21, 1, wx.EXPAND, 5 )
+		
+		
+		fgSizer1.Add( fgSizer25, 1, wx.EXPAND, 5 )
 		
 		fgSizer3 = wx.FlexGridSizer( 0, 3, 0, 0 )
 		fgSizer3.AddGrowableCol( 1 )
@@ -533,28 +558,27 @@ class GlobalSetting ( wx.Dialog ):
 		fgSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
 		
 		
-		bSizer2.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.m_global_setting_panel.SetSizer( bSizer2 )
+		self.m_global_setting_panel.SetSizer( fgSizer1 )
 		self.m_global_setting_panel.Layout()
-		bSizer2.Fit( self.m_global_setting_panel )
+		fgSizer1.Fit( self.m_global_setting_panel )
 		bSizer1.Add( self.m_global_setting_panel, 1, wx.EXPAND |wx.ALL, 5 )
 		
 		
 		self.SetSizer( bSizer1 )
 		self.Layout()
+		bSizer1.Fit( self )
 		
 		self.Centre( wx.BOTH )
 		
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.on_set_color_close )
 		self.m_name_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_global_name_blur )
-		self.m_color_checkbox.Bind( wx.EVT_CHECKBOX, self.on_global_checkbox )
+		self.m_color_radio.Bind( wx.EVT_RADIOBUTTON, self.on_radio_click )
 		self.m_color_picker.Bind( wx.EVT_LEFT_DOWN, self.on_color_button_click )
 		self.m_value_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_color_blur )
 		self.m_value_textbox.Bind( wx.EVT_SET_FOCUS, self.on_color_focus )
 		self.m_value_textbox.Bind( wx.EVT_TEXT, self.on_color_change )
+		self.m_text_radio.Bind( wx.EVT_RADIOBUTTON, self.on_radio_click )
 		self.m_apply_button.Bind( wx.EVT_BUTTON, self.on_apply_button_click )
 	
 	def __del__( self ):
@@ -568,7 +592,7 @@ class GlobalSetting ( wx.Dialog ):
 	def on_global_name_blur( self, event ):
 		event.Skip()
 	
-	def on_global_checkbox( self, event ):
+	def on_radio_click( self, event ):
 		event.Skip()
 	
 	def on_color_button_click( self, event ):
@@ -583,105 +607,6 @@ class GlobalSetting ( wx.Dialog ):
 	def on_color_change( self, event ):
 		event.Skip()
 	
-	def on_apply_button_click( self, event ):
-		event.Skip()
-	
-
-###########################################################################
-## Class GlobalSettingCss
-###########################################################################
-
-class GlobalSettingCss ( wx.Dialog ):
-	
-	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Global Setting CSS", pos = wx.DefaultPosition, size = wx.Size( 300,400 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
-		
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
-		
-		bSizer1 = wx.BoxSizer( wx.VERTICAL )
-		
-		self.m_global_setting_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		bSizer2 = wx.BoxSizer( wx.VERTICAL )
-		
-		fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer1.AddGrowableCol( 1 )
-		fgSizer1.AddGrowableRow( 1 )
-		fgSizer1.SetFlexibleDirection( wx.BOTH )
-		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		self.m_name_label = wx.StaticText( self.m_global_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_name_label.Wrap( -1 )
-		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
-		
-		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
-		
-		self.m_name_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
-		fgSizer1.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
-		
-		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-		
-		self.m_value_textbox = wx.TextCtrl( self.m_global_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE|wx.TE_PROCESS_TAB )
-		self.m_value_textbox.SetMinSize( wx.Size( 200,200 ) )
-		
-		fgSizer1.Add( self.m_value_textbox, 0, wx.ALL|wx.EXPAND, 5 )
-		
-		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-		
-		fgSizer3 = wx.FlexGridSizer( 0, 3, 0, 0 )
-		fgSizer3.AddGrowableCol( 1 )
-		fgSizer3.SetFlexibleDirection( wx.BOTH )
-		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-		
-		
-		fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-		
-		self.m_apply_button = wx.Button( self.m_global_setting_panel, wx.ID_ANY, u"Apply", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer3.Add( self.m_apply_button, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
-		
-		
-		fgSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
-		
-		
-		bSizer2.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.m_global_setting_panel.SetSizer( bSizer2 )
-		self.m_global_setting_panel.Layout()
-		bSizer2.Fit( self.m_global_setting_panel )
-		bSizer1.Add( self.m_global_setting_panel, 1, wx.EXPAND |wx.ALL, 5 )
-		
-		
-		self.SetSizer( bSizer1 )
-		self.Layout()
-		
-		self.Centre( wx.BOTH )
-		
-		# Connect Events
-		self.Bind( wx.EVT_CLOSE, self.on_close )
-		self.m_name_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_global_name_blur )
-		self.m_value_textbox.Bind( wx.EVT_KILL_FOCUS, self.on_color_blur )
-		self.m_value_textbox.Bind( wx.EVT_SET_FOCUS, self.on_color_focus )
-		self.m_apply_button.Bind( wx.EVT_BUTTON, self.on_apply_button_click )
-	
-	def __del__( self ):
-		pass
-	
-	
-	# Virtual event handlers, overide them in your derived class
-	def on_close( self, event ):
-		event.Skip()
-	
-	def on_global_name_blur( self, event ):
-		event.Skip()
-	
-	def on_color_blur( self, event ):
-		event.Skip()
-	
-	def on_color_focus( self, event ):
-		event.Skip()
 	
 	def on_apply_button_click( self, event ):
 		event.Skip()
@@ -694,9 +619,9 @@ class GlobalSettingCss ( wx.Dialog ):
 class ColorSetting ( wx.Dialog ):
 	
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Color Setting", pos = wx.DefaultPosition, size = wx.Size( 500,200 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Color Setting", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.RESIZE_BORDER )
 		
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		self.SetSizeHints( wx.Size( 500,200 ), wx.DefaultSize )
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
@@ -704,33 +629,39 @@ class ColorSetting ( wx.Dialog ):
 		self.m_color_setting_panel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		self.m_color_setting_panel.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
 		
-		bSizer2 = wx.BoxSizer( wx.VERTICAL )
+		fgSizer23 = wx.FlexGridSizer( 0, 1, 0, 0 )
+		fgSizer23.AddGrowableCol( 0 )
+		fgSizer23.SetFlexibleDirection( wx.BOTH )
+		fgSizer23.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer1.AddGrowableCol( 1 )
-		fgSizer1.SetFlexibleDirection( wx.BOTH )
-		fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		fgSizer28 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer28.AddGrowableCol( 1 )
+		fgSizer28.SetFlexibleDirection( wx.BOTH )
+		fgSizer28.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
 		self.m_name_label = wx.StaticText( self.m_color_setting_panel, wx.ID_ANY, u"Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_name_label.Wrap( -1 )
 		self.m_name_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
-		fgSizer1.Add( self.m_name_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL|wx.ALIGN_RIGHT, 5 )
+		fgSizer28.Add( self.m_name_label, 0, wx.ALL, 5 )
 		
 		self.m_name_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_name_textbox, 1, wx.ALL|wx.EXPAND, 5 )
+		fgSizer28.Add( self.m_name_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_scope_label = wx.StaticText( self.m_color_setting_panel, wx.ID_ANY, u"Scope", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_scope_label.Wrap( -1 )
 		self.m_scope_label.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
 		
-		fgSizer1.Add( self.m_scope_label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL|wx.ALIGN_RIGHT, 5 )
+		fgSizer28.Add( self.m_scope_label, 0, wx.ALL, 5 )
 		
 		self.m_scope_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer1.Add( self.m_scope_textbox, 0, wx.ALL|wx.EXPAND, 5 )
+		fgSizer28.Add( self.m_scope_textbox, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer23.Add( fgSizer28, 1, wx.EXPAND, 5 )
+		
+		self.m_staticline3 = wx.StaticLine( self.m_color_setting_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
+		fgSizer23.Add( self.m_staticline3, 0, wx.EXPAND |wx.ALL, 5 )
 		
 		fgSizer2 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer2.AddGrowableCol( 1 )
@@ -755,13 +686,11 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( fgSizer2, 1, wx.EXPAND, 5 )
-		
-		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer23.Add( fgSizer2, 1, wx.EXPAND, 5 )
 		
 		fgSizer3 = wx.FlexGridSizer( 0, 5, 0, 0 )
-		fgSizer3.AddGrowableCol( 4 )
+		fgSizer3.AddGrowableCol( 1 )
+		fgSizer3.AddGrowableCol( 3 )
 		fgSizer3.SetFlexibleDirection( wx.BOTH )
 		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
@@ -779,7 +708,7 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer3.Add( self.m_foreground_picker, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_foreground_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer3.Add( self.m_foreground_textbox, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+		fgSizer3.Add( self.m_foreground_textbox, 0, wx.ALIGN_CENTER|wx.ALL|wx.EXPAND, 5 )
 		
 		self.m_background_picker = wx.Panel( self.m_color_setting_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.SUNKEN_BORDER|wx.TAB_TRAVERSAL )
 		bSizer4 = wx.BoxSizer( wx.VERTICAL )
@@ -795,16 +724,13 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer3.Add( self.m_background_picker, 1, wx.EXPAND |wx.ALL, 5 )
 		
 		self.m_background_textbox = wx.TextCtrl( self.m_color_setting_panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer3.Add( self.m_background_textbox, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+		fgSizer3.Add( self.m_background_textbox, 0, wx.ALIGN_CENTER|wx.ALL|wx.EXPAND, 5 )
 		
 		
 		fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( fgSizer3, 1, wx.EXPAND, 5 )
-		
-		
-		fgSizer1.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+		fgSizer23.Add( fgSizer3, 1, wx.EXPAND, 5 )
 		
 		fgSizer4 = wx.FlexGridSizer( 0, 3, 0, 0 )
 		fgSizer4.AddGrowableCol( 1 )
@@ -818,20 +744,18 @@ class ColorSetting ( wx.Dialog ):
 		fgSizer4.Add( self.m_apply_button, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
 		
 		
-		fgSizer1.Add( fgSizer4, 1, wx.EXPAND, 5 )
+		fgSizer23.Add( fgSizer4, 1, wx.EXPAND, 5 )
 		
 		
-		bSizer2.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.m_color_setting_panel.SetSizer( bSizer2 )
+		self.m_color_setting_panel.SetSizer( fgSizer23 )
 		self.m_color_setting_panel.Layout()
-		bSizer2.Fit( self.m_color_setting_panel )
+		fgSizer23.Fit( self.m_color_setting_panel )
 		bSizer1.Add( self.m_color_setting_panel, 1, wx.EXPAND |wx.ALL, 5 )
 		
 		
 		self.SetSizer( bSizer1 )
 		self.Layout()
+		bSizer1.Fit( self )
 		
 		self.Centre( wx.BOTH )
 		

@@ -4,7 +4,6 @@ import wx
 from . import gui
 from . import grid_helper
 from . import global_setting_dialog
-from . import global_setting_css_dialog
 from . import settings_codes as sc
 from ..rgba import RGBA
 from ..x11colors import name2hex
@@ -45,13 +44,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         FG_COLOR = foreground
         count = 0
 
-        found_popup = False
-        found_phantom = False
         for k in sorted(scheme["settings"][0]["settings"].keys()):
-            if k == "phantomCss":
-                found_phantom = True
-            elif k == "popupCss":
-                found_popup = True
             v = scheme["settings"][0]["settings"][k].strip()
             self.m_plist_grid.AppendRows(1)
             if not v.startswith('#'):
@@ -60,15 +53,6 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
                     v = color
             self.update_row(count, k, v)
             count += 1
-
-        # Add phantom and/or popup if not found
-        if not found_popup:
-            self.m_plist_grid.AppendRows(1)
-            self.update_row(count, 'popupCss', '')
-            count += 1
-        if not found_phantom:
-            self.m_plist_grid.AppendRows(1)
-            self.update_row(count, 'phantomCss', '')
 
         self.resize_table()
 
@@ -133,8 +117,6 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         row = self.m_plist_grid.GetGridCursorRow()
         col = self.m_plist_grid.GetGridCursorCol()
         name = self.m_plist_grid.GetCellValue(row, 0)
-        if name in ('popupCss', 'phantomCss'):
-            return
         self.m_plist_grid.DeleteRows(row, 1)
         self.m_plist_grid.GetParent().update_plist(sc.DELETE, {"table": "global", "index": name})
         if name == "foreground" or name == "background":
@@ -173,26 +155,17 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
 
     def edit_cell(self):
         """Edit the cell."""
+
         grid = self.m_plist_grid
         row = grid.GetGridCursorRow()
         editor = self.GetParent().GetParent().GetParent()
-        name = grid.GetCellValue(row, 0)
-        if name in ('popupCss', 'phantomCss'):
-            diag = global_setting_css_dialog.GlobalCssEditor(
-                editor,
-                editor.scheme["settings"][0]["settings"],
-                grid.GetCellValue(row, 0),
-                grid.GetCellValue(row, 1)
-            )
-            diag.ShowModal()
-        else:
-            diag = global_setting_dialog.GlobalEditor(
-                editor,
-                editor.scheme["settings"][0]["settings"],
-                grid.GetCellValue(row, 0),
-                grid.GetCellValue(row, 1)
-            )
-            diag.ShowModal()
+        diag = global_setting_dialog.GlobalEditor(
+            editor,
+            editor.scheme["settings"][0]["settings"],
+            grid.GetCellValue(row, 0),
+            grid.GetCellValue(row, 1)
+        )
+        diag.ShowModal()
         diag.Destroy()
 
     def on_grid_label_left_click(self, event):

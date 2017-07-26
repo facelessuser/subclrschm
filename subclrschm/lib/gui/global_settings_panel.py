@@ -19,6 +19,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         super(GlobalSettings, self).__init__(parent)
         if util.platform() == "windows":
             self.SetDoubleBuffered(False)
+        self.diag = None
         self.setup_keybindings()
         self.parent = parent
         self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)
@@ -143,15 +144,16 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
             count += 1
 
         editor = self.GetParent().GetParent().GetParent()
-        diag = global_setting_dialog.GlobalEditor(
+        self.diag = global_setting_dialog.GlobalEditor(
             editor,
             editor.scheme["settings"][0]["settings"],
             new_name,
             "nothing",
             insert=True
         )
-        diag.ShowModal()
-        diag.Destroy()
+        self.diag.ShowModal()
+        self.diag.Destroy()
+        self.diag = None
 
     def edit_cell(self):
         """Edit the cell."""
@@ -159,14 +161,15 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         grid = self.m_plist_grid
         row = grid.GetGridCursorRow()
         editor = self.GetParent().GetParent().GetParent()
-        diag = global_setting_dialog.GlobalEditor(
+        self.diag = global_setting_dialog.GlobalEditor(
             editor,
             editor.scheme["settings"][0]["settings"],
             grid.GetCellValue(row, 0),
             grid.GetCellValue(row, 1)
         )
-        diag.ShowModal()
-        diag.Destroy()
+        self.diag.ShowModal()
+        self.diag.Destroy()
+        self.diag = None
 
     def on_grid_label_left_click(self, event):
         """Handle grid label left click."""

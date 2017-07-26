@@ -94,7 +94,7 @@ class EditorFrame ( wx.Frame ):
 		bSizer3.Add( fgSizer2, 1, wx.EXPAND, 5 )
 		
 		
-		fgSizer1.Add( bSizer3, 1, wx.EXPAND, 5 )
+		fgSizer1.Add( bSizer3, 1, wx.EXPAND|wx.TOP|wx.RIGHT|wx.LEFT, 5 )
 		
 		self.m_plist_notebook = wx.Notebook( self.m_main_panel, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0|wx.ALWAYS_SHOW_SB|wx.FULL_REPAINT_ON_RESIZE )
 		self.m_plist_notebook.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
@@ -113,6 +113,9 @@ class EditorFrame ( wx.Frame ):
 		self.Layout()
 		self.m_menubar = wx.MenuBar( 0 )
 		self.m_menu_file = wx.Menu()
+		self.m_menuitem_new = wx.MenuItem( self.m_menu_file, wx.ID_ANY, u"New", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menu_file.Append( self.m_menuitem_new )
+		
 		self.m_menuitem_open = wx.MenuItem( self.m_menu_file, wx.ID_ANY, u"Open", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu_file.Append( self.m_menuitem_open )
 		
@@ -152,6 +155,7 @@ class EditorFrame ( wx.Frame ):
 		self.m_button4.Bind( wx.EVT_BUTTON, self.on_prev_find )
 		self.m_button5.Bind( wx.EVT_BUTTON, self.on_next_find )
 		self.m_plist_notebook.Bind( wx.EVT_SIZE, self.on_plist_notebook_size )
+		self.Bind( wx.EVT_MENU, self.on_create_new, id = self.m_menuitem_new.GetId() )
 		self.Bind( wx.EVT_MENU, self.on_open_new, id = self.m_menuitem_open.GetId() )
 		self.Bind( wx.EVT_MENU, self.on_save, id = self.m_menuitem_save.GetId() )
 		self.Bind( wx.EVT_MENU, self.on_save_as, id = self.m_menuitem_save_as.GetId() )
@@ -199,6 +203,9 @@ class EditorFrame ( wx.Frame ):
 	def on_plist_notebook_size( self, event ):
 		event.Skip()
 	
+	def on_create_new( self, event ):
+		event.Skip()
+	
 	def on_open_new( self, event ):
 		event.Skip()
 	
@@ -225,8 +232,6 @@ class GlobalSettingsPanel ( wx.Panel ):
 		wx.Panel.__init__ ( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL )
 		
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
-		
-		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 		
 		fgSizer1 = wx.FlexGridSizer( 2, 1, 0, 0 )
 		fgSizer1.AddGrowableCol( 0 )
@@ -286,10 +291,7 @@ class GlobalSettingsPanel ( wx.Panel ):
 		fgSizer1.Add( self.m_plist_grid, 1, wx.EXPAND, 5 )
 		
 		
-		bSizer1.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.SetSizer( bSizer1 )
+		self.SetSizer( fgSizer1 )
 		self.Layout()
 		
 		# Connect Events
@@ -334,8 +336,6 @@ class StyleSettingsPanel ( wx.Panel ):
 		wx.Panel.__init__ ( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL )
 		
 		self.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_BTNFACE ) )
-		
-		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 		
 		fgSizer1 = wx.FlexGridSizer( 2, 1, 0, 0 )
 		fgSizer1.AddGrowableCol( 0 )
@@ -413,10 +413,7 @@ class StyleSettingsPanel ( wx.Panel ):
 		fgSizer1.Add( self.m_plist_grid, 1, wx.EXPAND, 5 )
 		
 		
-		bSizer1.Add( fgSizer1, 1, wx.EXPAND, 5 )
-		
-		
-		self.SetSizer( bSizer1 )
+		self.SetSizer( fgSizer1 )
 		self.Layout()
 		
 		# Connect Events

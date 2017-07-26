@@ -19,6 +19,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         super(StyleSettings, self).__init__(parent)
         if util.platform() == "windows":
             self.SetDoubleBuffered(False)
+        self.diag = None
         self.setup_keybindings()
         self.parent = parent
         self.m_plist_grid.GetGridWindow().Bind(wx.EVT_MOTION, self.on_mouse_motion)
@@ -150,7 +151,7 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
         grid = self.m_plist_grid
         row = grid.GetGridCursorRow()
         editor = self.GetParent().GetParent().GetParent()
-        color_setting_dialog.ColorEditor(
+        self.diag = color_setting_dialog.ColorEditor(
             editor,
             {
                 "name": grid.GetCellValue(row, 0),
@@ -161,7 +162,10 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
                     "fontStyle": grid.GetCellValue(row, 3)
                 }
             }
-        ).ShowModal()
+        )
+        self.diag.ShowModal()
+        self.diag.Destroy()
+        self.diag = None
 
     def delete_row(self):
         """Handle row delete."""
@@ -183,11 +187,14 @@ class StyleSettings(gui.StyleSettingsPanel, grid_helper.GridHelper):
             }
         }
         editor = self.GetParent().GetParent().GetParent()
-        color_setting_dialog.ColorEditor(
+        self.diag = color_setting_dialog.ColorEditor(
             editor,
             obj,
             insert=True
-        ).ShowModal()
+        )
+        self.diag.ShowModal()
+        self.diag.Destroy()
+        self.diag = None
 
     def row_up(self):
         """Handle row up."""

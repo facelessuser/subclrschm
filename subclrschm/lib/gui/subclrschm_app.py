@@ -16,7 +16,7 @@ import wx
 import traceback
 
 from .about_dialog import AboutDialog
-from .custom_app import DebugFrameExtender
+from .custom_app import DebugFrameExtender, PipeApp
 from .custom_app import debug, debug_struct, error
 from . import custom_statusbar
 from . import basic_dialogs
@@ -263,6 +263,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
 
         super(Editor, self).__init__(parent)
         self.ready = False
+        self.opening = False
         self.m_global_settings = None
         self.m_style_settings = None
         if util.platform() == "windows":
@@ -602,8 +603,17 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 while not self.update_thread.is_done():
                     time.sleep(0.5)
         elif not self.live_save and self.updates_made:
-            if basic_dialogs.yesno("You have unsaved changes.  Save?", "Color Scheme Editor"):
+            if basic_dialogs.yesno(
+                "You have unsaved changes.  Do you want to Save?",
+                "Color Scheme Editor",
+                yes="Save",
+                no="Discard"
+            ):
                 self.save()
+            else:
+                self.updates_made = False
+                self.m_statusbar.remove_icon('unsaved')
+                self.m_menuitem_save.Enable(False)
 
     def check_name(self):
         """Check the name."""
@@ -677,11 +687,35 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
             self.m_style_settings.resize_table()
         event.Skip()
 
+    def on_create_new(self, event):
+        """Create new theme file."""
+
+        self.opening = True
+
+        scheme_file = query_user_for_file(self, action="new")
+
+        if scheme_file:
+            try:
+                with codecs.open(scheme_file, "w", "utf-8") as f:
+                    f.write((util.dump_plist(default_new_theme) + '\n'))
+                file_path = scheme_file
+                debug("New: File selected: %s" % file_path)
+            except Exception:
+                file_path = None
+                error(traceback.format_exc())
+                basic_dialogs.errormsg('There was a problem writing the theme file!')
+
+            if file_path:
+                self.open_new(file_path)
+        self.opening = False
+
     def on_open_new(self, event):
         """Handle open new event."""
 
+        self.opening = True
         scheme_file = query_user_for_file(self, action="select")
         self.open_new(scheme_file)
+        self.opening = False
 
     def open_new(self, scheme_file):
         """Open new scheme file."""
@@ -698,6 +732,12 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 self.last_UUID = self.scheme.get("uuid", "")
                 self.last_plist_name = self.scheme["name"]
                 self.rebuild_tables(None, None)
+                self.m_style_settings.resize_table()
+                self.m_global_settings.resize_table()
+                if self.live_save:
+                    self.queue = []
+                    self.update_thread = LiveUpdate(self.save, self.queue)
+                    self.update_thread.start()
 
     def on_save(self, event):
         """Handle save event."""
@@ -708,6 +748,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
     def on_save_as(self, event):
         """Handle save as event."""
 
+        self.opening = True
         save_file = query_user_for_file(self, action="new")
         if save_file is not None:
             t_file = None
@@ -720,6 +761,7 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
                 del self.queue[0:len(self.queue)]
                 self.update_thread.release_queue()
             self.save()
+        self.opening = False
 
     def on_about(self, event):
         """Handle about event."""
@@ -771,3 +813,89 @@ class Editor(gui.EditorFrame, DebugFrameExtender):
         self.close_debug_console()
         self.file_close_cleanup()
         event.Skip()
+
+
+class SubClrSchmApp(PipeApp):
+    """SubClrSchmApp."""
+
+    def __init__(self, *args, **kwargs):
+        """Init SubClrSchmApp object."""
+
+        PipeApp.__init__(self, *args, **kwargs)
+
+    def on_pipe_args(self, event):
+        """
+        Handle piped arguments.
+
+        When receiving arguments via named pipes,
+        look for the search path argument, and populate
+        the search path in the RummageFrame
+        """
+
+        from .. import parse_args
+        from .platform_window_focus import platform_window_focus
+
+        if event.data:
+            # Prevent further clicks and such
+
+            args = parse_args.parse_arguments(event.data)
+            frame = self.GetTopWindow()
+            if frame is not None:
+
+                frame.Disable()
+                if frame.opening or not frame.is_ready():
+                    frame.Enable()
+                    return
+
+                # Close edit dialogs
+                if frame.m_global_settings and frame.m_global_settings.diag:
+                    frame.m_global_settings.diag.Close()
+                if frame.m_style_settings and frame.m_style_settings.diag:
+                    frame.m_style_settings.diag.Close()
+
+                scheme_file = None
+                if args.file:
+                    scheme_file = args.file
+                elif args.select:
+                    platform_window_focus(frame)
+                    scheme_file = frame.on_open_new(None)
+                elif args.new:
+                    platform_window_focus(frame)
+                    scheme_file = frame.on_create_new(None)
+
+                if scheme_file:
+                    # Wait until saves are empty or we timeout
+                    start = time.time()
+                    while frame.queue:
+                        if (time.time() - start) > 1.0:
+                            break
+                    # Open
+                    frame.Enable()
+                    frame.open_new(scheme_file)
+                    platform_window_focus(frame)
+                else:
+                    frame.Enable()
+
+    def process_args(self, arguments):
+        """Event for processing the arguments."""
+        from .. import parse_args
+
+        argv = parse_args.parse_arguments(arguments)
+        args = []
+
+        if argv.select:
+            args.append('-s')
+        if argv.new:
+            args.append('-n')
+        if argv.file and os.path.exists(argv.file):
+            args.append(os.path.abspath(argv.file))
+
+        return args
+
+    def MacReopenApp(self):  # noqa
+        """Ensure that app will be unminimized in OSX on dock icon click."""
+
+        from .platform_window_focus import platform_window_focus
+
+        frame = self.GetTopWindow()
+        platform_window_focus(frame)

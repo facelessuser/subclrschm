@@ -4,10 +4,13 @@
 
 Jul XX, 2017
 
+- **NEW**: Add menu entry to create a new color scheme.
 - **NEW**: Show visual indicator when unsaved changes are present.
 - **NEW**: Apply name and UUID if enter is pressed in the respective text box.
 - **NEW**: `phantomCss` and `popupCss` are no longer treated special but like an ordinary text entry. Text entries have a separate box that can optionally contain multi-line data or single line data.
 - **NEW**: Slight redesign of edit dialogs.
+- **NEW**: When in single instance mode, pipe arguments to existing instance.
+- **FIX**: Ensure a new live thread is started when switching files.
 - **FIX**: Fix issue where event isn't passed into UUID check.
 - **FIX**: When opening new file while another file is open, don't clean up current file until after the new file has been selected and successfully parsed.
 

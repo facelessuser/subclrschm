@@ -2,7 +2,7 @@
 
 ## 2.3.0
 
-Jul XX, 2017
+Jul 26, 2017
 
 - **NEW**: Add menu entry to create a new color scheme.
 - **NEW**: Show visual indicator when unsaved changes are present.

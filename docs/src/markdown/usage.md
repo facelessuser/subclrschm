@@ -28,7 +28,8 @@ optional arguments:
 
 Option           | Description
 ---------------- | -----------
-`multi-instance` | By default, subclrschm will only allow one instance of subclrschm, you can allow multiple instances with this setting. Restarting current instances may be required.
+`file`           | Optional positional argument to specify a `tmTheme` file to open.
+`multi-instance` | By default, subclrschm will only allow one instance of subclrschm, and if another instance is opened, it will send the arguments to the instance already open. You can allow multiple instances with this setting. Restarting the current instances may be required.
 `log`            | Subclrschm will store a log with any errors and such in `~/.subclrschm`, `~/.config/subclrschm`, or `c:\Users\<username>\.subclrschm` in macOS, Linux, and Windows respectively. You can redirect the log placement by pointing this setting at a folder.  This is mainly used for integration in Sublime Text to save log to User folder.
 `live-save`      | This saves any changes immediately to the color scheme file. This is mainly used in Sublime Text integration to provide live updates when editing the current, active color scheme.
 `select`         | Instead of asking the user if they want to create a new color scheme or open an existing one, you can force it to immediately ask you to select an existing color scheme.  This is used in Sublime Text integration.

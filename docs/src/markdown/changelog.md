@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.1
+
+Jul 26, 2017
+
+- **FIX**: `wxPython` 4.0.0b1 removed label parameter from constructor.
+
 ## 2.1.0
 
 Jul 26, 2017

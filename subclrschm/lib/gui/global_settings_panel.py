@@ -39,10 +39,8 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         if not color.startswith('#'):
             color = name2hex(color)
         background = RGBA(color)
-        global BG_COLOR
-        BG_COLOR = background
-        global FG_COLOR
-        FG_COLOR = foreground
+        self.bg_color = background
+        self.fg_color = foreground
         count = 0
 
         for k in sorted(scheme["settings"][0]["settings"].keys()):
@@ -79,8 +77,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         try:
             bg = RGBA(v.strip())
             if k != "background":
-                editor = self.GetParent().GetParent().GetParent()
-                bg.apply_alpha(editor.m_style_settings.bg_color.get_rgb())
+                bg.apply_alpha(self.bg_color.get_rgb())
             fg = RGBA("#000000") if bg.get_luminance() > 128 else RGBA("#FFFFFF")
         except:
             bg = RGBA("#FFFFFF")
@@ -121,7 +118,7 @@ class GlobalSettings(gui.GlobalSettingsPanel, grid_helper.GridHelper):
         self.m_plist_grid.DeleteRows(row, 1)
         self.m_plist_grid.GetParent().update_plist(sc.DELETE, {"table": "global", "index": name})
         if name == "foreground" or name == "background":
-            self.m_plist_grid.GetParent().reshow(row, col)
+            self.reshow(row, col)
 
     def validate_name(self, name):
         """Validate the name."""

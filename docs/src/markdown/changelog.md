@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2
+
+Jul 27, 2017
+
+- **FIX**: Properly mix transparent, global settings with the right background after editing the global background.
+
 ## 2.1.1
 
 Jul 26, 2017

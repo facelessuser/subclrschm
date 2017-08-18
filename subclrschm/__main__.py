@@ -7,6 +7,11 @@ from .lib.gui import subclrschm_app
 from .lib import parse_args
 from .lib import util
 
+# Handle case where pythonw.exe is used and there is not a valid stdout or stderr
+if sys.executable.endswith("pythonw.exe"):
+    sys.stdout = open(os.devnull, "w")
+    sys.stderr = open(os.devnull, "w")
+
 
 def get_log_location():
     """Get log location."""

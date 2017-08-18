@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3
+
+Aug 18, 2017
+
+- **FIX**: Invalid `stdout` and/or `stderr` on Windows when using `pythonw`.
+
 ## 2.1.2
 
 Jul 27, 2017

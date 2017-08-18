@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="A graphical Sublime Text color scheme editor.">
+      
+      
+        <link rel="canonical" href="https://facelessuser.github.io/subclrschm/installation/">
+      
+      
+      
+        <link rel="shortcut icon" href="../assets/images/favicon.png">
+      
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.8.1">
+    
+    
+      
+        <title>Installation - Sublime Color Scheme Editor Documentation</title>
+      
+    
+    
+      <script src="../assets/javascripts/modernizr-1df76c4e58.js"></script>
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application-bfecc7305d.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-02c2a4388f.palette.css">
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+      <link rel="stylesheet" href="../extra-9b4c72abee.css">
+    
+    
+  </head>
+  
+  
+  
+  
+    <body data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <a href="https://facelessuser.github.io/subclrschm" title="Sublime Color Scheme Editor Documentation" class="md-icon md-icon--home md-header-nav__button">
+          </a>
+        
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <span class="md-flex__ellipsis md-header-nav__title">
+          
+            
+              
+            
+            Installation
+          
+        </span>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result" data-md-lang-search="" data-md-lang-tokenizer="[\s\-]+">
+          <div class="md-search-result__meta" data-md-lang-result-none="No matching documents" data-md-lang-result-one="1 matching document" data-md-lang-result-other="# matching documents">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/facelessuser/subclrschm" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    
+      <i class="md-icon md-icon--home md-nav__button"></i>
+    
+    Sublime Color Scheme Editor Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/facelessuser/subclrschm" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      GitHub
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Sublime Color Scheme Editor" class="md-nav__link">
+      Sublime Color Scheme Editor
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Installation
+      </label>
+    
+    <a href="./" title="Installation" class="md-nav__link md-nav__link--active">
+      Installation
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation_1" title="Installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-virtual-environments-macos" title="Running in Virtual Environments (macOS)" class="md-nav__link">
+    Running in Virtual Environments (macOS)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-homebrew-macos" title="Running in Homebrew (macOS)" class="md-nav__link">
+    Running in Homebrew (macOS)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-anaconda-macos" title="Running in Anaconda (macOS)" class="md-nav__link">
+    Running in Anaconda (macOS)
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../usage/" title="User Guide" class="md-nav__link">
+      User Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" title="Contributing &amp; Support" class="md-nav__link">
+      Contributing &amp; Support
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../changelog/" title="Changelog" class="md-nav__link">
+      Changelog
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation_1" title="Installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-virtual-environments-macos" title="Running in Virtual Environments (macOS)" class="md-nav__link">
+    Running in Virtual Environments (macOS)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-homebrew-macos" title="Running in Homebrew (macOS)" class="md-nav__link">
+    Running in Homebrew (macOS)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-in-anaconda-macos" title="Running in Anaconda (macOS)" class="md-nav__link">
+    Running in Anaconda (macOS)
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/facelessuser/subclrschm/tree/master/docs/src/markdown/installation.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link"></a></h1>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link"></a></h2>
+<p>Subclrschm has a only one requirement when installing.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://pypi.python.org/pypi/wxPython/"><code>wxPython</code>&nbsp;4.0.0a3+</a></td>
+<td>The new wxPython 4.0.0 is required for for Rummage to run in Python 2 and Python 3. Classic wxPython support has unfortunately be dropped.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Linux Prerequisites</p>
+<p>In traditional Linux fashion, there is a little extra work that needs to be done prior to installing.  Linux requires some prerequisites so that it can build wxPython during installation.</p>
+<p>Example is for Ubuntu:</p>
+<div class="codehilite"><pre><span></span>sudo apt-get install dpkg-dev build-essential python2.7-dev libwebkitgtk-dev libjpeg-dev libtiff-dev libgtk2.0-dev libsdl1.2-dev libgstreamer-plugins-base0.10-dev libnotify-dev freeglut3 freeglut3-dev
+</pre></div>
+
+<p>Replace <code>python2.7-dev</code> with the Python version you are using.</p>
+<p>If your Linux distribution has <code>gstreamer</code> 1.0 available, you can install the dev packages for that instead of the 0.10 version.</p>
+<p>Be patient while installing on Linux as Linux must build wxPython while macOS and Windows do not.</p>
+<p>Check out the wxPython document to see if prerequisites have changed: <a href="https://github.com/wxWidgets/Phoenix/blob/master/README.rst#prerequisites">https://github.com/wxWidgets/Phoenix/blob/master/README.rst#prerequisites</a>.</p>
+</div>
+<h2 id="installation_1">Installation<a class="headerlink" href="#installation_1" title="Permanent link"></a></h2>
+<p>Here are a couple of ways to install and upgrade. Keep in mind if you are a Linux user, you have some prerequisites to install before proceeding: see <a href="#requirements">Requirements</a>.</p>
+<ol>
+<li>
+<p>Install: <code class="codehilite">python pip install subclrschm</code>.</p>
+</li>
+<li>
+<p>To upgrade: <code class="codehilite">python install --upgrade subclrschm</code>.</p>
+</li>
+<li>
+<p>If developing on subclrschm, you can clone the project, and install the requirements with the following command:</p>
+<div class="codehilite"><pre><span></span>pip install -r requirements/project.txt<span class="sb">`</span>
+</pre></div>
+
+<p>You can then run the command below. This method will allow you to instantly see your changes between iterations without reinstalling which is great for developing.  If you want to do this in a virtual machine, you can as well.  Like the first method, you should then be able to access subclrschm from the command line via <code>rummage</code> or <code>rummage --path mydirectory</code>.</p>
+<div class="codehilite"><pre><span></span>pip install --editable .
+</pre></div>
+
+<p>You could also just optionally run the package locally, skipping the actual install of subclrschm. You can run the project by issuing the following command from the root folder:</p>
+<div class="codehilite"><pre><span></span>python -m subclrschm
+</pre></div>
+
+<p>In general, you may find it more appropriate to use the <code>pythonw</code> command instead of <code>python</code>.  In some environments, it may be required (see <a href="#running-in-anaconda-macos">"Running in Anaconda (macOS)"</a>).</p>
+</li>
+</ol>
+<h2 id="running-in-virtual-environments-macos">Running in Virtual Environments (macOS)<a class="headerlink" href="#running-in-virtual-environments-macos" title="Permanent link"></a></h2>
+<p>If installing in a virtual environment via <code>virtualenv</code>, you may run into the following error:</p>
+<p>This used to be a fairly annoying issue to workaround, but in wxPython 4+, it's not too bad.  The wxPython wiki is a bit out of date.  You don't have to symlink <code>wx.pth</code> or anything like that anymore as the design of wxPython is a bit different now.  All you have to do is place the script below in <code>my_virtual_env/bin</code>.  In this example I call it <code>fwpy</code> for "framework python" (make sure to adjust paths or Python versions to match your installation).</p>
+<div class="codehilite"><pre><span></span>#!/bin/bash
+
+# what real Python executable to use
+PYVER=2.7
+PYTHON=/Library/Frameworks/Python.framework/Versions/$PYVER/bin/python$PYVER
+
+# find the root of the virtualenv, it should be the parent of the dir this script is in
+ENV=`$PYTHON -c &quot;import os; print os.path.abspath(os.path.join(os.path.dirname(\&quot;$0\&quot;), &#39;..&#39;))&quot;`
+echo $ENV
+
+# now run Python with the virtualenv set as Python&#39;s HOME
+export PYTHONHOME=$ENV
+exec $PYTHON &quot;$@&quot;
+</pre></div>
+
+<h2 id="running-in-homebrew-macos">Running in Homebrew (macOS)<a class="headerlink" href="#running-in-homebrew-macos" title="Permanent link"></a></h2>
+<p>Homebrew from what I read used to have issues running wxPython in versions less than 4, but this doesn't seem to be an issue with wxPython 4 with Homebrew (at least in my testing).</p>
+<h2 id="running-in-anaconda-macos">Running in Anaconda (macOS)<a class="headerlink" href="#running-in-anaconda-macos" title="Permanent link"></a></h2>
+<p>Anaconda can run Rummage fine from my testing.  The important thing to note is you must launch it with <code>pythonw -m rummage</code> and <strong>not</strong> <code>python -m rummage</code>.</p>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href=".." title="Sublime Color Scheme Editor" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Sublime Color Scheme Editor
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../usage/" title="User Guide" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                User Guide
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2013 - 2017 <a href="https://github.com/facelessuser">Isaac Muse</a>
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org" title="MkDocs">MkDocs</a>
+        and
+        <a href="http://squidfunk.github.io/mkdocs-material/" title="Material for MkDocs">
+          Material for MkDocs</a>
+        with emoji provided free by
+        <a href="http://www.emojione.com">EmojiOne</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/facelessuser" class="md-footer-social__link fa fa-github"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application-6940329b9f.js"></script>
+      
+      
+      <script>app.initialize({url:{base:".."}})</script>
+      
+        <script src="../extra-2aceccb07f.js"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

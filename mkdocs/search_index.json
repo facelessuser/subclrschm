@@ -1,0 +1,194 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Sublime Color Scheme Editor\n\ue157\n\n\nSublime Color Scheme Editor (subclrschm) is a graphical Sublime Text color scheme editor.  It is cross platform and runs in Windows, macOS, and Linux.\n\n\nWindows\n\n\n\n\nmacOS\n\n\n\n\nLinux", 
+            "title": "Sublime Color Scheme Editor"
+        }, 
+        {
+            "location": "/#sublime-color-scheme-editor", 
+            "text": "Sublime Color Scheme Editor (subclrschm) is a graphical Sublime Text color scheme editor.  It is cross platform and runs in Windows, macOS, and Linux.  Windows   macOS   Linux", 
+            "title": "Sublime Color Scheme Editor"
+        }, 
+        {
+            "location": "/installation/", 
+            "text": "Installation\n\ue157\n\n\nRequirements\n\ue157\n\n\nSubclrschm has a only one requirement when installing.\n\n\n\n\n\n\n\n\nName\n\n\nDetails\n\n\n\n\n\n\n\n\n\n\nwxPython\n4.0.0a3+\n\n\nThe new wxPython 4.0.0 is required for for Rummage to run in Python 2 and Python 3. Classic wxPython support has unfortunately be dropped.\n\n\n\n\n\n\n\n\n\n\nLinux Prerequisites\n\n\nIn traditional Linux fashion, there is a little extra work that needs to be done prior to installing.  Linux requires some prerequisites so that it can build wxPython during installation.\n\n\nExample is for Ubuntu:\n\n\nsudo apt-get install dpkg-dev build-essential python2.7-dev libwebkitgtk-dev libjpeg-dev libtiff-dev libgtk2.0-dev libsdl1.2-dev libgstreamer-plugins-base0.10-dev libnotify-dev freeglut3 freeglut3-dev\n\n\n\n\nReplace \npython2.7-dev\n with the Python version you are using.\n\n\nIf your Linux distribution has \ngstreamer\n 1.0 available, you can install the dev packages for that instead of the 0.10 version.\n\n\nBe patient while installing on Linux as Linux must build wxPython while macOS and Windows do not.\n\n\nCheck out the wxPython document to see if prerequisites have changed: \nhttps://github.com/wxWidgets/Phoenix/blob/master/README.rst#prerequisites\n.\n\n\n\n\nInstallation\n\ue157\n\n\nHere are a couple of ways to install and upgrade. Keep in mind if you are a Linux user, you have some prerequisites to install before proceeding: see \nRequirements\n.\n\n\n\n\n\n\nInstall: \npython pip install subclrschm\n.\n\n\n\n\n\n\nTo upgrade: \npython install --upgrade subclrschm\n.\n\n\n\n\n\n\nIf developing on subclrschm, you can clone the project, and install the requirements with the following command:\n\n\npip install -r requirements/project.txt\n`\n\n\n\n\n\nYou can then run the command below. This method will allow you to instantly see your changes between iterations without reinstalling which is great for developing.  If you want to do this in a virtual machine, you can as well.  Like the first method, you should then be able to access subclrschm from the command line via \nrummage\n or \nrummage --path mydirectory\n.\n\n\npip install --editable .\n\n\n\n\nYou could also just optionally run the package locally, skipping the actual install of subclrschm. You can run the project by issuing the following command from the root folder:\n\n\npython -m subclrschm\n\n\n\n\nIn general, you may find it more appropriate to use the \npythonw\n command instead of \npython\n.  In some environments, it may be required (see \n\"Running in Anaconda (macOS)\"\n).\n\n\n\n\n\n\nRunning in Virtual Environments (macOS)\n\ue157\n\n\nIf installing in a virtual environment via \nvirtualenv\n, you may run into the following error:\n\n\nThis used to be a fairly annoying issue to workaround, but in wxPython 4+, it's not too bad.  The wxPython wiki is a bit out of date.  You don't have to symlink \nwx.pth\n or anything like that anymore as the design of wxPython is a bit different now.  All you have to do is place the script below in \nmy_virtual_env/bin\n.  In this example I call it \nfwpy\n for \"framework python\" (make sure to adjust paths or Python versions to match your installation).\n\n\n#!/bin/bash\n\n# what real Python executable to use\nPYVER=2.7\nPYTHON=/Library/Frameworks/Python.framework/Versions/$PYVER/bin/python$PYVER\n\n# find the root of the virtualenv, it should be the parent of the dir this script is in\nENV=`$PYTHON -c \nimport os; print os.path.abspath(os.path.join(os.path.dirname(\\\n$0\\\n), \n..\n))\n`\necho $ENV\n\n# now run Python with the virtualenv set as Python\ns HOME\nexport PYTHONHOME=$ENV\nexec $PYTHON \n$@\n\n\n\n\n\nRunning in Homebrew (macOS)\n\ue157\n\n\nHomebrew from what I read used to have issues running wxPython in versions less than 4, but this doesn't seem to be an issue with wxPython 4 with Homebrew (at least in my testing).\n\n\nRunning in Anaconda (macOS)\n\ue157\n\n\nAnaconda can run Rummage fine from my testing.  The important thing to note is you must launch it with \npythonw -m rummage\n and \nnot\n \npython -m rummage\n.", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#installation", 
+            "text": "", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#requirements", 
+            "text": "Subclrschm has a only one requirement when installing.     Name  Details      wxPython 4.0.0a3+  The new wxPython 4.0.0 is required for for Rummage to run in Python 2 and Python 3. Classic wxPython support has unfortunately be dropped.      Linux Prerequisites  In traditional Linux fashion, there is a little extra work that needs to be done prior to installing.  Linux requires some prerequisites so that it can build wxPython during installation.  Example is for Ubuntu:  sudo apt-get install dpkg-dev build-essential python2.7-dev libwebkitgtk-dev libjpeg-dev libtiff-dev libgtk2.0-dev libsdl1.2-dev libgstreamer-plugins-base0.10-dev libnotify-dev freeglut3 freeglut3-dev  Replace  python2.7-dev  with the Python version you are using.  If your Linux distribution has  gstreamer  1.0 available, you can install the dev packages for that instead of the 0.10 version.  Be patient while installing on Linux as Linux must build wxPython while macOS and Windows do not.  Check out the wxPython document to see if prerequisites have changed:  https://github.com/wxWidgets/Phoenix/blob/master/README.rst#prerequisites .", 
+            "title": "Requirements"
+        }, 
+        {
+            "location": "/installation/#installation_1", 
+            "text": "Here are a couple of ways to install and upgrade. Keep in mind if you are a Linux user, you have some prerequisites to install before proceeding: see  Requirements .    Install:  python pip install subclrschm .    To upgrade:  python install --upgrade subclrschm .    If developing on subclrschm, you can clone the project, and install the requirements with the following command:  pip install -r requirements/project.txt `   You can then run the command below. This method will allow you to instantly see your changes between iterations without reinstalling which is great for developing.  If you want to do this in a virtual machine, you can as well.  Like the first method, you should then be able to access subclrschm from the command line via  rummage  or  rummage --path mydirectory .  pip install --editable .  You could also just optionally run the package locally, skipping the actual install of subclrschm. You can run the project by issuing the following command from the root folder:  python -m subclrschm  In general, you may find it more appropriate to use the  pythonw  command instead of  python .  In some environments, it may be required (see  \"Running in Anaconda (macOS)\" ).", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/installation/#running-in-virtual-environments-macos", 
+            "text": "If installing in a virtual environment via  virtualenv , you may run into the following error:  This used to be a fairly annoying issue to workaround, but in wxPython 4+, it's not too bad.  The wxPython wiki is a bit out of date.  You don't have to symlink  wx.pth  or anything like that anymore as the design of wxPython is a bit different now.  All you have to do is place the script below in  my_virtual_env/bin .  In this example I call it  fwpy  for \"framework python\" (make sure to adjust paths or Python versions to match your installation).  #!/bin/bash\n\n# what real Python executable to use\nPYVER=2.7\nPYTHON=/Library/Frameworks/Python.framework/Versions/$PYVER/bin/python$PYVER\n\n# find the root of the virtualenv, it should be the parent of the dir this script is in\nENV=`$PYTHON -c  import os; print os.path.abspath(os.path.join(os.path.dirname(\\ $0\\ ),  .. )) `\necho $ENV\n\n# now run Python with the virtualenv set as Python s HOME\nexport PYTHONHOME=$ENV\nexec $PYTHON  $@", 
+            "title": "Running in Virtual Environments (macOS)"
+        }, 
+        {
+            "location": "/installation/#running-in-homebrew-macos", 
+            "text": "Homebrew from what I read used to have issues running wxPython in versions less than 4, but this doesn't seem to be an issue with wxPython 4 with Homebrew (at least in my testing).", 
+            "title": "Running in Homebrew (macOS)"
+        }, 
+        {
+            "location": "/installation/#running-in-anaconda-macos", 
+            "text": "Anaconda can run Rummage fine from my testing.  The important thing to note is you must launch it with  pythonw -m rummage  and  not   python -m rummage .", 
+            "title": "Running in Anaconda (macOS)"
+        }, 
+        {
+            "location": "/usage/", 
+            "text": "User Guide\n\ue157\n\n\nSubclrschm is a simple GUI for editing a Sublime color scheme file (\n.tmTheme\n). Simply point it at a \ntmTheme\n file and get editing.\n\n\nCommand Line\n\ue157\n\n\nFaceless-MacBook-Pro:subclrschm facelessuser$ python3 -m subclrschm --help\nusage: subclrschm [-h] [--version] [--multi-instance] [--log [LOG]]\n                  [--live_save] [--select | --new]\n                  [file]\n\nSublime Color Scheme Editor - Edit Sublime Color Scheme\n\npositional arguments:\n  file                  Theme file\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --version             show program\ns version number and exit\n  --multi-instance, -m  Allow multiple instances\n  --log [LOG], -l [LOG]\n                        Absolute path to directory to store log file\n  --live-save, -L       Enable live save.\n  --select, -s          Prompt for theme selection\n  --new, -n             Open prompting for new theme to create\n\n\n\n\n\n\n\n\n\n\nOption\n\n\nDescription\n\n\n\n\n\n\n\n\n\n\nfile\n\n\nOptional positional argument to specify a \ntmTheme\n file to open.\n\n\n\n\n\n\nmulti-instance\n\n\nBy default, subclrschm will only allow one instance of subclrschm, and if another instance is opened, it will send the arguments to the instance already open. You can allow multiple instances with this setting. Restarting the current instances may be required.\n\n\n\n\n\n\nlog\n\n\nSubclrschm will store a log with any errors and such in \n~/.subclrschm\n, \n~/.config/subclrschm\n, or \nc:\\Users\\\nusername\n\\.subclrschm\n in macOS, Linux, and Windows respectively. You can redirect the log placement by pointing this setting at a folder.  This is mainly used for integration in Sublime Text to save log to User folder.\n\n\n\n\n\n\nlive-save\n\n\nThis saves any changes immediately to the color scheme file. This is mainly used in Sublime Text integration to provide live updates when editing the current, active color scheme.\n\n\n\n\n\n\nselect\n\n\nInstead of asking the user if they want to create a new color scheme or open an existing one, you can force it to immediately ask you to select an existing color scheme.  This is used in Sublime Text integration.\n\n\n\n\n\n\nnew\n\n\nInstead of asking the user if they want to create a new color scheme or open an existing one, you can force it to create a new color scheme.  This is used in Sublime Text integration.\n\n\n\n\n\n\n\n\nOpening/Creating New Color Schemes\n\ue157\n\n\nWhen running subclrschm, if a color scheme was not provided on the command line, it will prompt the user to either create a new color scheme or browse for an existing color scheme. You can also open a different color scheme at any time via the menu: \nFile-\nOpen\n.\n\n\nEditing\n\ue157\n\n\nWhen opening a color scheme, you will be prevented with a GUI containing boxes with the name of the color scheme and the current UUID. Here you can change the name or UUID (UUIDs are carried over from TextMate, but don't do anything in Sublime color schemes).\n\n\nUnderneath the name and UUID boxes is a find box that allows you to search for names, scopes, and values in the color scheme.\n\n\nLastly you see a tabbed interface that displays \"Global Settings\" and \"Scope Settings\".  Here you can add a new setting, delete  a setting, change the order of settings, change a setting's name, and change a setting's value.\n\n\nGlobal Settings\n\ue157\n\n\n\n\nThe Global Settings tab contains all the general, global settings like background, foreground, gutter colors, popup CSS, etc.\n\n\nYou can create new entries by selecting the \n+\n button or delete entries by selecting an entry and pressing the \n-\n button.  You can edit an entry by double clicking it or pressing enter if you have one selected.\n\n\nYou can navigate the entries with the arrow keys or by using the mouse.\n\n\nEdit Dialog\n\ue157\n\n\n\n\nWhen editing an entry, the edit dialog will allow you to either insert a string value when the \nText\n radio button is selected, or a color value when the color radio button is selected.  When dealing with a color, you will get a color preview as you change the color's hex value, you can also click the color box to bring up your system's color picker (or a generic color picker in the case of Linux).\n\n\nTransparent colors are allowed and are represented by the following form \n#RRGGBBAA\n. Color previews will simulate the transparent color by overlaying foreground colors over the rule's background color (defaults to global background if entry does not contain a background or it is simulating that entry's background color).\n\n\nScope Settings\n\ue157\n\n\n\n\nThe Scope Settings tab contains all the scope related entries.\n\n\nYou can create new entries by selecting the \n+\n button or delete entries by selecting an entry and pressing the \n-\n button.  You can edit an entry by double clicking it or pressing enter if you have one selected.  You can also change the order of the settings by using the arrow buttons, or by pressing \nAlt\n\uff0b\nUp\n or \nAlt\n\uff0b\nDown\n.\n\n\nYou can also change text emphasis by pressing the \nB\n, \nI\n, or \nU\n key to toggle bold, italic, or underline respectively (underline doesn't do anything in Sublime Text and is more a TextMate option).\nYou can also navigate the entries with the arrow keys or by using the mouse.\n\n\nEdit Scope Dialog\n\ue157\n\n\n\n\nWhen editing a scope entry, you can change the name and the target scope.\n\n\nUnderneath the name and scope box, you will find checkboxes allowing you to control whether the target scope will be bold, italic, or underlined (underline doesn't do anything in Sublime Text and is more a TextMate option).\n\n\nScope dialogs also give you two colors you can set: background and foreground. The associated text box takes colors in the form \n#RRGGBBAA\n and support an alpha channel.  You can alternatively click the color preview box and use your system's color picker (or a generic color picker in the case of Linux).", 
+            "title": "User Guide"
+        }, 
+        {
+            "location": "/usage/#user-guide", 
+            "text": "Subclrschm is a simple GUI for editing a Sublime color scheme file ( .tmTheme ). Simply point it at a  tmTheme  file and get editing.", 
+            "title": "User Guide"
+        }, 
+        {
+            "location": "/usage/#command-line", 
+            "text": "Faceless-MacBook-Pro:subclrschm facelessuser$ python3 -m subclrschm --help\nusage: subclrschm [-h] [--version] [--multi-instance] [--log [LOG]]\n                  [--live_save] [--select | --new]\n                  [file]\n\nSublime Color Scheme Editor - Edit Sublime Color Scheme\n\npositional arguments:\n  file                  Theme file\n\noptional arguments:\n  -h, --help            show this help message and exit\n  --version             show program s version number and exit\n  --multi-instance, -m  Allow multiple instances\n  --log [LOG], -l [LOG]\n                        Absolute path to directory to store log file\n  --live-save, -L       Enable live save.\n  --select, -s          Prompt for theme selection\n  --new, -n             Open prompting for new theme to create     Option  Description      file  Optional positional argument to specify a  tmTheme  file to open.    multi-instance  By default, subclrschm will only allow one instance of subclrschm, and if another instance is opened, it will send the arguments to the instance already open. You can allow multiple instances with this setting. Restarting the current instances may be required.    log  Subclrschm will store a log with any errors and such in  ~/.subclrschm ,  ~/.config/subclrschm , or  c:\\Users\\ username \\.subclrschm  in macOS, Linux, and Windows respectively. You can redirect the log placement by pointing this setting at a folder.  This is mainly used for integration in Sublime Text to save log to User folder.    live-save  This saves any changes immediately to the color scheme file. This is mainly used in Sublime Text integration to provide live updates when editing the current, active color scheme.    select  Instead of asking the user if they want to create a new color scheme or open an existing one, you can force it to immediately ask you to select an existing color scheme.  This is used in Sublime Text integration.    new  Instead of asking the user if they want to create a new color scheme or open an existing one, you can force it to create a new color scheme.  This is used in Sublime Text integration.", 
+            "title": "Command Line"
+        }, 
+        {
+            "location": "/usage/#openingcreating-new-color-schemes", 
+            "text": "When running subclrschm, if a color scheme was not provided on the command line, it will prompt the user to either create a new color scheme or browse for an existing color scheme. You can also open a different color scheme at any time via the menu:  File- Open .", 
+            "title": "Opening/Creating New Color Schemes"
+        }, 
+        {
+            "location": "/usage/#editing", 
+            "text": "When opening a color scheme, you will be prevented with a GUI containing boxes with the name of the color scheme and the current UUID. Here you can change the name or UUID (UUIDs are carried over from TextMate, but don't do anything in Sublime color schemes).  Underneath the name and UUID boxes is a find box that allows you to search for names, scopes, and values in the color scheme.  Lastly you see a tabbed interface that displays \"Global Settings\" and \"Scope Settings\".  Here you can add a new setting, delete  a setting, change the order of settings, change a setting's name, and change a setting's value.", 
+            "title": "Editing"
+        }, 
+        {
+            "location": "/usage/#global-settings", 
+            "text": "The Global Settings tab contains all the general, global settings like background, foreground, gutter colors, popup CSS, etc.  You can create new entries by selecting the  +  button or delete entries by selecting an entry and pressing the  -  button.  You can edit an entry by double clicking it or pressing enter if you have one selected.  You can navigate the entries with the arrow keys or by using the mouse.", 
+            "title": "Global Settings"
+        }, 
+        {
+            "location": "/usage/#edit-dialog", 
+            "text": "When editing an entry, the edit dialog will allow you to either insert a string value when the  Text  radio button is selected, or a color value when the color radio button is selected.  When dealing with a color, you will get a color preview as you change the color's hex value, you can also click the color box to bring up your system's color picker (or a generic color picker in the case of Linux).  Transparent colors are allowed and are represented by the following form  #RRGGBBAA . Color previews will simulate the transparent color by overlaying foreground colors over the rule's background color (defaults to global background if entry does not contain a background or it is simulating that entry's background color).", 
+            "title": "Edit Dialog"
+        }, 
+        {
+            "location": "/usage/#scope-settings", 
+            "text": "The Scope Settings tab contains all the scope related entries.  You can create new entries by selecting the  +  button or delete entries by selecting an entry and pressing the  -  button.  You can edit an entry by double clicking it or pressing enter if you have one selected.  You can also change the order of the settings by using the arrow buttons, or by pressing  Alt \uff0b Up  or  Alt \uff0b Down .  You can also change text emphasis by pressing the  B ,  I , or  U  key to toggle bold, italic, or underline respectively (underline doesn't do anything in Sublime Text and is more a TextMate option).\nYou can also navigate the entries with the arrow keys or by using the mouse.", 
+            "title": "Scope Settings"
+        }, 
+        {
+            "location": "/usage/#edit-scope-dialog", 
+            "text": "When editing a scope entry, you can change the name and the target scope.  Underneath the name and scope box, you will find checkboxes allowing you to control whether the target scope will be bold, italic, or underlined (underline doesn't do anything in Sublime Text and is more a TextMate option).  Scope dialogs also give you two colors you can set: background and foreground. The associated text box takes colors in the form  #RRGGBBAA  and support an alpha channel.  You can alternatively click the color preview box and use your system's color picker (or a generic color picker in the case of Linux).", 
+            "title": "Edit Scope Dialog"
+        }, 
+        {
+            "location": "/contributing/", 
+            "text": "Contributing \n Support\n\ue157\n\n\nOverview\n\ue157\n\n\nContribution from the community is encouraged and can be done in a variety of ways:\n\n\n\n\nBug reports.\n\n\nReviewing code.\n\n\nCode patches via pull requests.\n\n\nDocumentation improvements via pull requests.\n\n\n\n\nBug Reports\n\ue157\n\n\n\n\n\n\nPlease \nread the documentation\n and \nsearch the issue tracker\n to try to find the answer to your question \nbefore\n posting an issue.\n\n\n\n\n\n\nWhen creating an issue on the repository, please provide as much info as possible:\n\n\n\n\nVersion being used.\n\n\nOperating system.\n\n\nErrors in console.\n\n\nDetailed description of the problem.\n\n\nExamples for reproducing the error.  You can post pictures, but if specific text or code is required to reproduce the issue, please provide the text in a plain text format for easy copy/paste.\n\n\n\n\nThe more info provided the greater the chance someone will take the time to answer, implement, or fix the issue.\n\n\n\n\n\n\nBe prepared to answer questions and provide additional information if required.  Issues in which the creator refuses to respond to follow up questions will be marked as stale and closed.\n\n\n\n\n\n\nReviewing Code\n\ue157\n\n\nTake part in reviewing pull requests and/or reviewing direct commits.  Make suggestions to improve the code and discuss solutions to overcome weaknesses in the algorithm.\n\n\nPull Requests\n\ue157\n\n\nPull requests are welcome, and if you plan on contributing directly to the code, there are a couple of things to be mindful of.\n\n\nContinuous integration tests are run on all pull requests and commits via Travis CI.  When making a pull request, the tests will automatically be run, and the request must pass to be accepted.  You can (and should) run these tests before pull requesting. If it is not possible to run these tests locally, they will be run when the pull request is made, but it is strongly suggested that requesters make an effort to verify before requesting to allow for a quick, smooth merge.\n\n\nRunning Validation Tests\n\ue157\n\n\n\n\n\n\nMake sure that Tox is installed:\n\n\npip install tox\n\n\n\n\n\n\n\n\nRun Tox:\n\n\ntox\n\n\n\n\nTox should install necessary dependencies and run the tests.\n\n\n\n\n\n\nDocumentation Improvements\n\ue157\n\n\nA ton of time has been spent not only creating and supporting this module, but also spent making this documentation.  If you feel it is still lacking, show your appreciation for the module by helping to improve the documentation.  Help with documentation is always appreciated and can be done via pull requests.  There shouldn't be any need to run validation tests if only updating documentation.\n\n\nYou don't have to render the docs locally before pull requesting, but if you wish to, I currently use a combination of \nMkDocs\n, the \nMaterial theme\n, and \nPyMdown Extensions\n to render the docs.  You can preview the docs if you install these packages.  The command for previewing the docs is \nmkdocs serve\n. It should be run from the root directory. You can then view the documents at \nlocalhost:8000\n.", 
+            "title": "Contributing &amp; Support"
+        }, 
+        {
+            "location": "/contributing/#contributing--support", 
+            "text": "", 
+            "title": "Contributing &amp; Support"
+        }, 
+        {
+            "location": "/contributing/#overview", 
+            "text": "Contribution from the community is encouraged and can be done in a variety of ways:   Bug reports.  Reviewing code.  Code patches via pull requests.  Documentation improvements via pull requests.", 
+            "title": "Overview"
+        }, 
+        {
+            "location": "/contributing/#bug-reports", 
+            "text": "Please  read the documentation  and  search the issue tracker  to try to find the answer to your question  before  posting an issue.    When creating an issue on the repository, please provide as much info as possible:   Version being used.  Operating system.  Errors in console.  Detailed description of the problem.  Examples for reproducing the error.  You can post pictures, but if specific text or code is required to reproduce the issue, please provide the text in a plain text format for easy copy/paste.   The more info provided the greater the chance someone will take the time to answer, implement, or fix the issue.    Be prepared to answer questions and provide additional information if required.  Issues in which the creator refuses to respond to follow up questions will be marked as stale and closed.", 
+            "title": "Bug Reports"
+        }, 
+        {
+            "location": "/contributing/#reviewing-code", 
+            "text": "Take part in reviewing pull requests and/or reviewing direct commits.  Make suggestions to improve the code and discuss solutions to overcome weaknesses in the algorithm.", 
+            "title": "Reviewing Code"
+        }, 
+        {
+            "location": "/contributing/#pull-requests", 
+            "text": "Pull requests are welcome, and if you plan on contributing directly to the code, there are a couple of things to be mindful of.  Continuous integration tests are run on all pull requests and commits via Travis CI.  When making a pull request, the tests will automatically be run, and the request must pass to be accepted.  You can (and should) run these tests before pull requesting. If it is not possible to run these tests locally, they will be run when the pull request is made, but it is strongly suggested that requesters make an effort to verify before requesting to allow for a quick, smooth merge.", 
+            "title": "Pull Requests"
+        }, 
+        {
+            "location": "/contributing/#running-validation-tests", 
+            "text": "Make sure that Tox is installed:  pip install tox    Run Tox:  tox  Tox should install necessary dependencies and run the tests.", 
+            "title": "Running Validation Tests"
+        }, 
+        {
+            "location": "/contributing/#documentation-improvements", 
+            "text": "A ton of time has been spent not only creating and supporting this module, but also spent making this documentation.  If you feel it is still lacking, show your appreciation for the module by helping to improve the documentation.  Help with documentation is always appreciated and can be done via pull requests.  There shouldn't be any need to run validation tests if only updating documentation.  You don't have to render the docs locally before pull requesting, but if you wish to, I currently use a combination of  MkDocs , the  Material theme , and  PyMdown Extensions  to render the docs.  You can preview the docs if you install these packages.  The command for previewing the docs is  mkdocs serve . It should be run from the root directory. You can then view the documents at  localhost:8000 .", 
+            "title": "Documentation Improvements"
+        }, 
+        {
+            "location": "/changelog/", 
+            "text": "Changelog\n\ue157\n\n\n2.1.3\n\ue157\n\n\nAug 18, 2017\n\n\n\n\nFIX\n: Invalid \nstdout\n and/or \nstderr\n on Windows when using \npythonw\n.\n\n\n\n\n2.1.2\n\ue157\n\n\nJul 27, 2017\n\n\n\n\nFIX\n: Properly mix transparent, global settings with the right background after editing the global background.\n\n\n\n\n2.1.1\n\ue157\n\n\nJul 26, 2017\n\n\n\n\nFIX\n: \nwxPython\n 4.0.0b1 removed label parameter from constructor.\n\n\n\n\n2.1.0\n\ue157\n\n\nJul 26, 2017\n\n\n\n\nNEW\n: Add menu entry to create a new color scheme.\n\n\nNEW\n: Show visual indicator when unsaved changes are present.\n\n\nNEW\n: Apply name and UUID if enter is pressed in the respective text box.\n\n\nNEW\n: \nphantomCss\n and \npopupCss\n are no longer treated special but like an ordinary text entry. Text entries have a separate box that can optionally contain multi-line data or single line data.\n\n\nNEW\n: Slight redesign of edit dialogs.\n\n\nNEW\n: When in single instance mode, pipe arguments to existing instance.\n\n\nNEW\n: Minor tweaks to GUI.\n\n\nFIX\n: Ensure a new live thread is started when switching files.\n\n\nFIX\n: Fix issue where event isn't passed into UUID check.\n\n\nFIX\n: When opening new file while another file is open, don't clean up current file until after the new file has been selected and successfully parsed.\n\n\n\n\n2.0.2\n\ue157\n\n\nJul 23, 2017\n\n\n\n\nFIX\n: \nUUID\n should be optional.\n\n\n\n\n2.0.1\n\ue157\n\n\nJul 23, 2017\n\n\n\n\nFIX\n: Include images as data in \nsetup.py\n when installing.\n\n\n\n\n2.0.0\n\ue157\n\n\nJul 23, 2017\n\n\n\n\nNEW\n: Add support for X11 color names.  Convert them to hex on color scheme load.\n\n\nNEW\n: Handle \npopupCss\n and \nphantomCss\n. Inject them if they are missing.\n\n\nNEW\n: Require \nwxPython\n 4+ and rework code to use it and support Python 2.7 and 3.4+.\n\n\nNEW\n: Remove importing and exporting of JSON color schemes.\n\n\nFIX\n: Multiple Ubuntu dock icons (possibly similar issue in other Linux distros).\n\n\n\n\n1.0.0\n\ue157\n\n\n\n\nNEW\n: Initial release.", 
+            "title": "Changelog"
+        }, 
+        {
+            "location": "/changelog/#changelog", 
+            "text": "", 
+            "title": "Changelog"
+        }, 
+        {
+            "location": "/changelog/#213", 
+            "text": "Aug 18, 2017   FIX : Invalid  stdout  and/or  stderr  on Windows when using  pythonw .", 
+            "title": "2.1.3"
+        }, 
+        {
+            "location": "/changelog/#212", 
+            "text": "Jul 27, 2017   FIX : Properly mix transparent, global settings with the right background after editing the global background.", 
+            "title": "2.1.2"
+        }, 
+        {
+            "location": "/changelog/#211", 
+            "text": "Jul 26, 2017   FIX :  wxPython  4.0.0b1 removed label parameter from constructor.", 
+            "title": "2.1.1"
+        }, 
+        {
+            "location": "/changelog/#210", 
+            "text": "Jul 26, 2017   NEW : Add menu entry to create a new color scheme.  NEW : Show visual indicator when unsaved changes are present.  NEW : Apply name and UUID if enter is pressed in the respective text box.  NEW :  phantomCss  and  popupCss  are no longer treated special but like an ordinary text entry. Text entries have a separate box that can optionally contain multi-line data or single line data.  NEW : Slight redesign of edit dialogs.  NEW : When in single instance mode, pipe arguments to existing instance.  NEW : Minor tweaks to GUI.  FIX : Ensure a new live thread is started when switching files.  FIX : Fix issue where event isn't passed into UUID check.  FIX : When opening new file while another file is open, don't clean up current file until after the new file has been selected and successfully parsed.", 
+            "title": "2.1.0"
+        }, 
+        {
+            "location": "/changelog/#202", 
+            "text": "Jul 23, 2017   FIX :  UUID  should be optional.", 
+            "title": "2.0.2"
+        }, 
+        {
+            "location": "/changelog/#201", 
+            "text": "Jul 23, 2017   FIX : Include images as data in  setup.py  when installing.", 
+            "title": "2.0.1"
+        }, 
+        {
+            "location": "/changelog/#200", 
+            "text": "Jul 23, 2017   NEW : Add support for X11 color names.  Convert them to hex on color scheme load.  NEW : Handle  popupCss  and  phantomCss . Inject them if they are missing.  NEW : Require  wxPython  4+ and rework code to use it and support Python 2.7 and 3.4+.  NEW : Remove importing and exporting of JSON color schemes.  FIX : Multiple Ubuntu dock icons (possibly similar issue in other Linux distros).", 
+            "title": "2.0.0"
+        }, 
+        {
+            "location": "/changelog/#100", 
+            "text": "NEW : Initial release.", 
+            "title": "1.0.0"
+        }, 
+        {
+            "location": "/license/", 
+            "text": "License\n\ue157\n\n\nMIT license.\n\n\nCopyright \n 2013 - 2017 Isaac Muse \n\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", 
+            "title": "License"
+        }, 
+        {
+            "location": "/license/#license", 
+            "text": "MIT license.  Copyright   2013 - 2017 Isaac Muse   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.  THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", 
+            "title": "License"
+        }
+    ]
+}
